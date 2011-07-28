@@ -9,7 +9,8 @@
 (function ($, undefined) {
 	
 	// fit the required height and resize the width preserving the aspect ratio
-    function fitHeight(selector, width, height, mw, mh) {
+	// stops at max values
+    function fitHeight(width, height, mw, mh) {
 
         // compute w relative to h
         var ratio = mw / mh,
@@ -24,12 +25,12 @@
         }
 
         // actual resize
-        $(selector).width(w).height(h);
+        $(this).width(w).height(h);
     };
 
-    // fit the required width and resize preserving aspect ratio
+    // fit the required width and resize the height preserving aspect ratio
     // stops at max values
-    function fitWidthOnly(selector, width, height, mw, mh) {
+    function fitWidthOnly(width, height, mw, mh) {
 
         // compute w relative to h
         var ratio = mw / mh,
@@ -45,12 +46,12 @@
         h = w * (1 / ratio);
 
         // actual resize
-        $(selector).width(w).height(h);
+        $(this).width(w).height(h);
     };
 
     // Safe resize + move for links
     // Move and resize a target according to the resize of the reference
-    function safeResizeFromTarget(target, to_w, to_h, to_top, to_left, reference, ro_w, ro_h) {
+    function relativeRepositionement(target, to_w, to_h, to_top, to_left, reference, ro_w, ro_h) {
         var r = $(reference),
     		rw = r.width(), rh = r.height(), rtop = r.offset().top,
     		t = $(target),
@@ -86,7 +87,8 @@
 	
 	// ACTUAL PLUGIN
 	$.extend({
-		
+		fitHeight: fitHeight,
+		fitWidthOnly: fitWidthOnly
 	});
 	
 })(jQuery);

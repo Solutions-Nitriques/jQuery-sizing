@@ -48,6 +48,62 @@
         // actual resize
         $(this).width(w).height(h);
     };
+    
+    // fit the target to maximize sapce used (no blanks)
+    // while preserving aspect ratio
+    function fit(width, height, ratio, mw, mh) {
+
+        // compute w relative to h
+        var h = 0,
+        	w = 0;
+
+        if (mw != undefined || mh != undefined) {
+        	if (width > mw) {
+                // use max values
+                width = mw;
+            }
+        }
+        
+    	if (!ratio) {
+    		h = height;
+    		w = width;
+    		//console.warn('sizing: no ratio found');
+    	} else {
+    		// try to make it fit with the width
+            w = width;
+            h = w * (1 / ratio);
+            
+            // if the height is too small
+            if (h < height) {
+            	h = height;
+            	w = ratio * h;
+            	
+            	//console.info('sizing: height');
+            } else {
+            	//console.info('sizing: width');
+            }
+    	}
+        
+        // actual resize
+        $(this).width(w).height(h);
+    };
+    
+    function cloneSize(options) {
+    	if (options && options.reference) {
+    		
+			options.width = $(options.reference).width();
+    		options.height = $(options.reference).height();
+    		
+    	} else {
+    		options = {
+    			width: $(window).width(),
+    			height: $(window).height(),
+    			reference: window
+    		};
+    	}
+    	
+    	$(this).width(options.width).height(options.height);
+    };
 
     // Safe resize + move for links
     // Move and resize a target according to the resize of the reference
@@ -82,13 +138,55 @@
         tw.css({ top: 0, left: iw, width: w, height: ph });
         th.css({ top: ih, left: 0, width: pw, height: h });
     };
-
-
+    
+    function centerCropFit(width, height, options) {
+    	var t = $(this),
+    		o = $.extend({
+    			allowNegative: true,
+    			left:'margin-left',
+    			top:'margin-top'
+    		}, options),
+    		w = t.width(),
+    		h = t.height(),
+    		left = $.sdiv(width - w, 2),
+    		top = $.sdiv(height - h, 2);
+    	
+    	if (!o.allowNegative) {
+    		left = left < 0 ? 0 : left;
+    		top = top < 0 ? 0 : top;
+    	}
+    	
+    	t.css(o.left, left).css(o.top, top);
+    };
+    
+    
+    function each(callback, args) {
+    	var t = $(this);
+    		
+    	if (t && t.length >= 0 && $.isFunction(callback)) {
+    		t.each(function() {
+    			callback.apply(this, args);
+    		});
+    	}
+    };
 	
 	// ACTUAL PLUGIN
-	$.extend({
+	$.fn.extend({
+		centerCropFit: function () { each.call(this, centerCropFit, arguments); } ,
+		cloneSize: cloneSize,
 		fitHeight: fitHeight,
-		fitWidthOnly: fitWidthOnly
+		fitWidthOnly: fitWidthOnly,
+		fit: fit
+	});
+	
+	$.extend({
+		// safe divide function
+		sdiv: function (n, d) {
+			if (!n || !d) {
+				return 0;
+			}
+			return n/d;
+		}
 	});
 	
 })(jQuery);

@@ -2,7 +2,7 @@
 * 	Sizing v1.0 - jQuery plugin
 *
 *	Copyright (c) 2011 Solutions Nitriques (http://www.nitriques.com/open-source/)
-*	Licensed under the MIT (LICENSE.txt)
+*	Licensed under the MIT (https://raw.github.com/Solutions-Nitriques/jQuery-sizing/master/LICENSE.txt)
 */
 
 
@@ -49,7 +49,7 @@
         $(this).width(w).height(h);
     };
     
-    // fit the target to maximize sapce used (no blanks)
+    // fit the target to maximize space used (no blanks)
     // while preserving aspect ratio
     function fit(width, height, ratio, mw, mh) {
 
@@ -107,7 +107,7 @@
 
     // Safe resize + move for links
     // Move and resize a target according to the resize of the reference
-    function relativeRepositionement(target, to_w, to_h, to_top, to_left, reference, ro_w, ro_h) {
+    /*function relativeRepositionement(target, to_w, to_h, to_top, to_left, reference, ro_w, ro_h) {
         var r = $(reference),
     		rw = r.width(), rh = r.height(), rtop = r.offset().top,
     		t = $(target),
@@ -137,7 +137,7 @@
 
         tw.css({ top: 0, left: iw, width: w, height: ph });
         th.css({ top: ih, left: 0, width: pw, height: h });
-    };
+    };*/
     
     function centerCropFit(width, height, options) {
     	var t = $(this),

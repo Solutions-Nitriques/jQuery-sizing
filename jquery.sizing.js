@@ -1,5 +1,5 @@
 /*
-* 	Sizing v1.0 - jQuery plugin
+* 	Sizing v1.2 - jQuery plugin
 *
 *	Copyright (c) 2011 Solutions Nitriques (http://www.nitriques.com/open-source/)
 *	Licensed under the MIT (https://raw.github.com/Solutions-Nitriques/jQuery-sizing/master/LICENSE.txt)
@@ -139,9 +139,12 @@
         th.css({ top: ih, left: 0, width: pw, height: h });
     };*/
     
+    // centers the image based on the params
+    // instead of resizing the image, the image 
+    // is moved in order to stay centered
     function centerCropFit(width, height, options) {
     	var t = $(this),
-    		o = $.extend({
+    		o = $.extend(o, {
     			allowNegative: true,
     			left:'margin-left',
     			top:'margin-top'
@@ -156,7 +159,30 @@
     		top = top < 0 ? 0 : top;
     	}
     	
-    	t.css(o.left, left).css(o.top, top);
+    	if (o.left) {
+    		t.css(o.left, left);
+    	}
+    	
+    	if (o.top) {
+    		t.css(o.top, top);
+    	}
+    };
+    
+    function saveOriginalSize() {
+    	var t = $(this),
+    		o = {
+    			width: t.width(),
+    			height: t.height(),
+    			ratio:  $.sdiv(t.width(),t.height())
+    		};
+    	
+    	t.data('original-size', o);
+    	
+    	return t;
+    };
+    
+    function getOriginalSize() {
+    	return $(this).eq(0).data('original-size');
     };
     
     
@@ -168,15 +194,152 @@
     			callback.apply(this, args);
     		});
     	}
+    	
+    	return t;
+    };
+    
+    function oneLiner(options) {
+    	var t = $(this),
+    		children = t.children(),
+    		fx = $.noop,
+    		opts = {
+    			factor: 0.98,
+    			wrapper: 'span',
+    			wrapperClass : 'one-liner',
+    			fx: 'font-size', // can be either be `font-size` or `letter-spacing` 
+    			childSelector: null
+    		};
+    	
+    	function fontSize(c) {
+    		// get ratio for this child
+			var ratio = $.sdiv(t.width(), c.find(opts.wrapper+'.'+opts.wrapperClass).outerWidth(true));
+			
+			if (ratio != 0) {
+				var currentSize = c.css('font-size'),
+					currentSizeFloat = parseFloat(currentSize, 10),
+					currentSizeUnit = currentSize.replace(/[0-9]+/, '');
+				
+				// change the font-size according to the ratio
+				c.css('font-size', ((currentSizeFloat * ratio) * opts.factor) + currentSizeUnit);
+			}
+    	};
+    	
+    	function letterSpacing(c) {
+    		// get the diff between the target and the child
+    		var diff = t.width() - c.find(opts.wrapper+'.'+opts.wrapperClass).outerWidth(true);
+    		// get the count of chars in the children
+    			length = t.text().length;
+    			
+    		if (diff != 0) {
+    			var dir = diff > 0 ? '+' : '-';
+    			
+    			// distribute the free space across all letters
+    			c.css('letter-spacing', dir + $.sdiv(diff * opts.factor, length) + 'px');
+    		}
+    	};
+    	
+    	if (!!options) {
+    		opts = $.extend(opts, options);
+    	}
+    	
+    	// capture the children, if we need to
+    	if (!!opts.childSelector) {
+    		children = t.find(opts.childSelector);
+    	}
+    	
+    	// check for the fx param
+    	switch (opts.fx) {
+	    	case 'font-size':
+	    		fx = fontSize;
+	    		break;
+	    	
+	    	case 'letter-spacing':
+	    		fx = letterSpacing;
+	    		break;
+	    		
+	    	default:
+	    		console.log('[oneLiner] the `fx` parameter is not valid!');
+	    		return this;
+    	}
+    	
+		// set overflow to hidden on container
+		t.css('overflow','hidden');
+		
+		// pass through each children
+		children.each(function () {
+			var c = $(this);
+			
+			// make it large enough
+    		c.width(100000000);
+    		
+    		// reset font-size and letter spacing
+    		c.css('font-size','');
+    		c.css('letter-spacing','');
+			
+			if (!c.find('.one-liner').length) {			
+				// wrap inner content
+				c.html('<'+opts.wrapper+' class="'+opts.wrapperClass+'">' + c.html() + '</'+opts.wrapper+'>');
+			}
+			
+			// call the actual function
+			fx.call(t, c);
+			
+			// reset width
+			c.css('width', '');
+		}); // end each
+		
+		// reset container overflow
+		t.css('overflow','');
+    };
+    
+    function offsetPosition(options) {
+    	var t = $(this),
+    		opts = $.extend({
+    			prop: null, // top | left
+    			offset: null // numeric, can be negative
+    		}, options);
+    	
+    	// get options from html5 data-attr
+    	if (!opts.prop) {
+    		opts.prop = t.attr('data-prop');
+    	}
+    	if (!opts.offset) {
+    		opts.offset = parseFloat(t.attr('data-offset'));
+    	}
+    	
+    	if (opts.prop && opts.offset) {
+	    	// reset css
+	    	t.css(opts.prop, '');
+	    	
+	    	var // get the original position, cultulated based on css
+	    		original = t.position()[opts.prop],
+	    		// original position in float format
+	    		originalFloat = parseFloat(original, 10);
+	    	
+	    	// save the current position, calculated from css
+	    	t.data('sizing-cur-offpos', original);
+	    	
+	    	// set the new value
+	    	t.css(opts.prop, originalFloat + opts.offset + 'px');
+	    	
+	    	//console.log('[sizing] offsetPosition: ' + original + ':' + opts.offset);
+	    	
+    	} else {
+    		//console.log('[sizing] offsetPosition skipped');
+    	}
     };
 	
 	// ACTUAL PLUGIN
 	$.fn.extend({
-		centerCropFit: function () { each.call(this, centerCropFit, arguments); } ,
+		centerCropFit: function () { return each.call(this, centerCropFit, arguments); },
 		cloneSize: cloneSize,
 		fitHeight: fitHeight,
 		fitWidthOnly: fitWidthOnly,
-		fit: fit
+		fit: fit,
+		oneLiner: function () { return each.call(this, oneLiner, arguments); },
+		saveOriginalSize: function () { return each.call(this, saveOriginalSize, arguments); },
+		getOriginalSize: getOriginalSize,
+		offsetPosition: function () { return each.call(this, offsetPosition, arguments); }
 	});
 	
 	$.extend({

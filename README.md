@@ -1,6 +1,6 @@
 # jQuery sizing #
 
-Version: 1.0 
+Version: 1.2 
 
 ### SPECS ###
 
@@ -15,6 +15,12 @@ Version: 1.0
 http://www.nitriques.com/open-source/
 
 ### History ###
+
+- 1.2 - 2011-11-08  
+  Updated the oneLiner method in order to make it work with letter-spacing and font sizes
+
+- 1.1 - 2011-09-27  
+  Added the oneLiner method
 
 - 1.0 - 2011-07-27  
   First release

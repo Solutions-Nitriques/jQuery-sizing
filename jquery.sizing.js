@@ -226,7 +226,7 @@
     	
     	function letterSpacing(c) {
     		// get the diff between the target and the child
-    		var diff = t.width() - c.find(opts.wrapper+'.'+opts.wrapperClass).outerWidth(true);
+    		var diff = t.width() - c.find(opts.wrapper+'.'+opts.wrapperClass).outerWidth(true),
     		// get the count of chars in the children
     			length = t.text().length;
     			

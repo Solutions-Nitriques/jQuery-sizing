@@ -1,4 +1,4 @@
-# jQuery sizing [![Build Status](https://secure.travis-ci.org/Solutions-Nitriques/jQuery-sizing.png?branch=dev)](http://travis-ci.org/Solutions-Nitriques/jQuery-sizing)
+# jQuery sizing [![Build Status](https://secure.travis-ci.org/Solutions-Nitriques/jQuery-sizing.png?branch=master)](http://travis-ci.org/Solutions-Nitriques/jQuery-sizing)
 
 Version: 1.3 
 
@@ -20,7 +20,7 @@ http://www.deuxhuithuit.com/
 
 - 1.3 - 2012-06-06       
   Added grunt and travis build files
-  * TODO: Add unit testing
+  \* TODO: Add unit testing
 
 - 1.2 - 2011-11-08  
   Updated the oneLiner method in order to make it work with letter-spacing and font sizes

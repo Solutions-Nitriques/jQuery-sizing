@@ -15,20 +15,20 @@ module.exports = function(grunt) {
     },
     min: {
       dist: {
-        src: ['<banner:meta.banner>', 'jquery.*.js'],
+        src: ['<banner:meta.banner>', 'src/jquery.*.js'],
         dest: 'dist/<%= pkg.name %>.min.js'
       }
     },
     qunit: {
-      files: ['http://localhost:8080/tests/jquery.sprite-animation.js.test.html?noglobals=true',
-			'http://localhost:8080/tests/jquery.sprite-animation.js.test.html?noglobals=true&jquery=1.7',
-			'http://localhost:8080/tests/jquery.sprite-animation.js.test.html?noglobals=true&jquery=1.6',
-			'http://localhost:8080/tests/jquery.sprite-animation.js.test.html?noglobals=true&jquery=1.5',
-			'http://localhost:8080/tests/jquery.sprite-animation.js.test.html?noglobals=true&jquery=1.4',
-			'http://localhost:8080/tests/jquery.sprite-animation.js.test.html?noglobals=true&jquery=1.3']
+      files: ['http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true',
+			'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.7',
+			'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.6',
+			'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.5',
+			'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.4',
+			'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.3']
     },
     lint: {
-      files: ['grunt.js', 'jquery.*.js']
+      files: ['grunt.js', 'src/jquery.*.js']
     },
     /*watch: {
       files: '<config:lint.files>',
@@ -66,6 +66,6 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint server qunit min');
+  grunt.registerTask('default', 'lint min');
 
 };

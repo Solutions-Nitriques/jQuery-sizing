@@ -1,16 +1,16 @@
 /*
-* 	Sizing v1.2 - jQuery plugin
+* Sizing v1.3 - jQuery plugin
 *
-*	Copyright (c) 2011 Solutions Nitriques (http://www.nitriques.com/open-source/)
-*	Licensed under the MIT (https://raw.github.com/Solutions-Nitriques/jQuery-sizing/master/LICENSE.txt)
+* Copyright (c) 2012 Deux Huit Huit (http://www.deuxhuithuit.com/)
+* Copyright (c) 2011 Solutions Nitriques (http://www.nitriques.com/open-source/)
+* Licensed under the MIT (https://raw.github.com/Solutions-Nitriques/jQuery-sizing/blob/master/LICENSE.txt)
 */
-
 
 (function ($, undefined) {
 	
 	// fit the required height and resize the width preserving the aspect ratio
 	// stops at max values
-    function fitHeight(width, height, mw, mh) {
+    var fitHeight = function (width, height, mw, mh) {
 
         // compute w relative to h
         var ratio = mw / mh,
@@ -26,11 +26,11 @@
 
         // actual resize
         $(this).width(w).height(h);
-    };
+    },
 
     // fit the required width and resize the height preserving aspect ratio
     // stops at max values
-    function fitWidthOnly(width, height, mw, mh) {
+    fitWidthOnly = function (width, height, mw, mh) {
 
         // compute w relative to h
         var ratio = mw / mh,
@@ -47,11 +47,11 @@
 
         // actual resize
         $(this).width(w).height(h);
-    };
+    },
     
     // fit the target to maximize space used (no blanks)
     // while preserving aspect ratio
-    function fit(width, height, ratio, mw, mh) {
+    fit = function (width, height, ratio, mw, mh) {
 
         // compute w relative to h
         var h = 0,
@@ -86,9 +86,9 @@
         
         // actual resize
         $(this).width(w).height(h);
-    };
+    },
     
-    function cloneSize(options) {
+    cloneSize = function (options) {
     	if (options && options.reference) {
     		
 			options.width = $(options.reference).width();
@@ -103,7 +103,7 @@
     	}
     	
     	$(this).width(options.width).height(options.height);
-    };
+    },
 
     // Safe resize + move for links
     // Move and resize a target according to the resize of the reference
@@ -122,27 +122,14 @@
         t.width(w).height(h);
         // actual move
         t.css({ top: top, left: left });
-    };
-
-
-    // comupute the free space between the parent and the img
-    // targets are set to "fill" this free space
-    function computePadding(targetw, targeth, parent, img) {
-        var p = $(parent), i = $(img),
-    		iw = i.width(), ih = i.height(),
-    		pw = p.width(), ph = p.height(),
-    		tw = $(targetw), th = $(targeth),
-    		w = pw - iw,
-    		h = ph - ih;
-
-        tw.css({ top: 0, left: iw, width: w, height: ph });
-        th.css({ top: ih, left: 0, width: pw, height: h });
     };*/
+
+
     
     // centers the image based on the params
     // instead of resizing the image, the image 
     // is moved in order to stay centered
-    function centerCropFit(width, height, options) {
+    centerCropFit = function (width, height, options) {
     	var t = $(this),
     		o = $.extend(o, {
     			allowNegative: true,
@@ -166,9 +153,9 @@
     	if (o.top) {
     		t.css(o.top, top);
     	}
-    };
+    },
     
-    function saveOriginalSize() {
+    saveOriginalSize = function () {
     	var t = $(this),
     		o = {
     			width: t.width(),
@@ -179,14 +166,14 @@
     	t.data('original-size', o);
     	
     	return t;
-    };
+    },
     
-    function getOriginalSize() {
+    getOriginalSize = function () {
     	return $(this).eq(0).data('original-size');
-    };
+    },
     
     
-    function each(callback, args) {
+    each = function (callback, args) {
     	var t = $(this);
     		
     	if (t && t.length >= 0 && $.isFunction(callback)) {
@@ -196,9 +183,9 @@
     	}
     	
     	return t;
-    };
+    },
     
-    function oneLiner(options) {
+    oneLiner = function (options) {
     	var t = $(this),
     		children = t.children(),
     		fx = $.noop,
@@ -208,35 +195,35 @@
     			wrapperClass : 'one-liner',
     			fx: 'font-size', // can be either be `font-size` or `letter-spacing` 
     			childSelector: null
-    		};
+    		},
     	
-    	function fontSize(c) {
-    		// get ratio for this child
-			var ratio = $.sdiv(t.width(), c.find(opts.wrapper+'.'+opts.wrapperClass).outerWidth(true));
-			
-			if (ratio != 0) {
-				var currentSize = c.css('font-size'),
-					currentSizeFloat = parseFloat(currentSize, 10),
-					currentSizeUnit = currentSize.replace(/[0-9]+/, '');
+    		fontSize = function (c) {
+	    		// get ratio for this child
+				var ratio = $.sdiv(t.width(), c.find(opts.wrapper+'.'+opts.wrapperClass).outerWidth(true));
 				
-				// change the font-size according to the ratio
-				c.css('font-size', ((currentSizeFloat * ratio) * opts.factor) + currentSizeUnit);
-			}
-    	};
+				if (ratio != 0) {
+					var currentSize = c.css('font-size'),
+						currentSizeFloat = parseFloat(currentSize, 10),
+						currentSizeUnit = currentSize.replace(/[0-9]+/, '');
+					
+					// change the font-size according to the ratio
+					c.css('font-size', ((currentSizeFloat * ratio) * opts.factor) + currentSizeUnit);
+				}
+	    	},
     	
-    	function letterSpacing(c) {
-    		// get the diff between the target and the child
-    		var diff = t.width() - c.find(opts.wrapper+'.'+opts.wrapperClass).outerWidth(true),
-    		// get the count of chars in the children
-    			length = t.text().length;
-    			
-    		if (diff != 0) {
-    			var dir = diff > 0 ? '+' : '-';
-    			
-    			// distribute the free space across all letters
-    			c.css('letter-spacing', dir + $.sdiv(diff * opts.factor, length) + 'px');
-    		}
-    	};
+	    	letterSpacing = function (c) {
+	    		// get the diff between the target and the child
+	    		var diff = t.width() - c.find(opts.wrapper+'.'+opts.wrapperClass).outerWidth(true),
+	    		// get the count of chars in the children
+	    			length = t.text().length;
+	    			
+	    		if (diff != 0) {
+	    			var dir = diff > 0 ? '+' : '-';
+	    			
+	    			// distribute the free space across all letters
+	    			c.css('letter-spacing', dir + $.sdiv(diff * opts.factor, length) + 'px');
+	    		}
+	    	};
     	
     	if (!!options) {
     		opts = $.extend(opts, options);
@@ -266,7 +253,7 @@
 		t.css('overflow','hidden');
 		
 		// pass through each children
-		children.each(function () {
+		children.each(function forEachChildren () {
 			var c = $(this);
 			
 			// make it large enough
@@ -290,9 +277,9 @@
 		
 		// reset container overflow
 		t.css('overflow','');
-    };
+    },
     
-    function offsetPosition(options) {
+    offsetPosition = function (options) {
     	var t = $(this),
     		opts = $.extend({
     			prop: null, // top | left
@@ -338,7 +325,7 @@
 		fit: fit,
 		oneLiner: function () { return each.call(this, oneLiner, arguments); },
 		saveOriginalSize: function () { return each.call(this, saveOriginalSize, arguments); },
-		getOriginalSize: getOriginalSize,
+		getOriginalSize: function () { return each.call(this, getOriginalSize, arguments); },
 		offsetPosition: function () { return each.call(this, offsetPosition, arguments); }
 	});
 	

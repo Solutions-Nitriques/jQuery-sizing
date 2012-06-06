@@ -4,6 +4,7 @@ follows:
 
 ----- begin license block -----
 
+Copyright 2012 Deux Huit Huit
 Copyright 2011 Solutions Nitriques
 
 Permission is hereby granted, free of charge, to any person obtaining a copy

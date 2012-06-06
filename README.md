@@ -2,6 +2,8 @@
 
 Version: 1.2 
 
+## Bundle of sizing functions, exposed as a jQuery plugin
+
 ### SPECS ###
 
 

@@ -1,0 +1,65 @@
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+	<meta charset="utf-8" /> 
+	<title>jQuery Sizing test suite</title> 
+	
+	<link rel="stylesheet" href="../qunit/qunit.css" type="text/css"/>
+	
+	<style type="text/css">
+
+  	</style>
+	
+	<script>
+		(function (doc,co) {
+			// http://stackoverflow.com/questions/901115/get-query-string-values-in-javascript
+			var u = {},
+				e,
+		        a = /\+/g,  // Regex for replacing addition symbol with a space
+		        r = /([^&=]+)=?([^&]*)/g,
+		        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+		        q = window.location.search.substring(1),
+				v = '1.7.2';
+
+			while (e = r.exec(q)) {
+				u[d(e[1])] = d(e[2]);
+			}
+			
+			if (!!u.jquery) {
+				v = u.jquery;
+			}	
+
+			doc.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/'+v+'/jquery.min.js">' + "<" + '/' + 'script>');
+			co.log('\nLoading jQuery v' + v + '\n');
+		})(window.document, console);
+	</script>
+</head>
+<body>
+	<h1 id="qunit-header">jQuery Sizing</h1>  
+    <h2 id="qunit-banner"></h2>  
+    <h2 id="qunit-userAgent"></h2>  
+    <ol id="qunit-tests"></ol>
+	
+	<div id="div"></div>
+
+	<script src="../src/jquery.sizing.js"></script> 
+	<script src="../qunit/qunit.js"></script>
+	<script>
+	(function ($) {
+		
+		var _private = null,
+			$div = $('#div');
+		
+		function runTests () {
+			
+			module('jQuery.sizing');
+			
+			
+		};
+		
+		$(runTests);
+		
+	})(jQuery);
+	</script>
+</body>
+</html>

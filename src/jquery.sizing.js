@@ -202,7 +202,7 @@
 				// get ratio for this child
 				var ratio = $.sdiv(t.width(), c.find(opts.wrapper+'.'+opts.wrapperClass).outerWidth(true));
 				
-				if (ratio != 0) {
+				if (ratio !== 0 && ratio != null) {
 					var currentSize = c.css('font-size'),
 						currentSizeFloat = parseFloat(currentSize, 10),
 						currentSizeUnit = currentSize.replace(/[0-9]+/, '');
@@ -217,8 +217,8 @@
 				var diff = t.width() - c.find(opts.wrapper+'.'+opts.wrapperClass).outerWidth(true),
 				// get the count of chars in the children
 					length = t.text().length;
-					
-				if (diff != 0) {
+				
+				if (diff !== 0 && !isNaN(diff)) {
 					var dir = diff > 0 ? '+' : '-';
 					
 					// distribute the free space across all letters

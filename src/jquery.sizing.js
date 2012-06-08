@@ -1,15 +1,15 @@
 /*
-* 	Sizing v1.3 - jQuery plugin
-*
-* 	Copyright (c) 2012 Deux Huit Huit (http://www.deuxhuithuit.com/)
-* 	Copyright (c) 2011 Solutions Nitriques (http://www.nitriques.com/open-source/)
-* 	Licensed under the MIT (https://raw.github.com/Solutions-Nitriques/jQuery-sizing/blob/master/LICENSE.txt)
-*/
+ *  Sizing v1.3 - jQuery plugin
+ *
+ *  Copyright (c) 2012 Deux Huit Huit (http://www.deuxhuithuit.com/)
+ *  Copyright (c) 2011 Solutions Nitriques (http://www.nitriques.com/open-source/)
+ *  Licensed under the MIT (https://raw.github.com/Solutions-Nitriques/jQuery-sizing/blob/master/LICENSE.txt)
+ */
 
 (function ($, undefined) {
-	
+
 	"use strict";
-	
+
 	// fit the required height and resize the width preserving the aspect ratio
 	// stops at max values
 	var fitHeight = function (width, height, mw, mh) {

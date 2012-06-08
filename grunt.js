@@ -36,23 +36,7 @@ module.exports = function(grunt) {
 		},*/
 		jshint: {
 			options: {
-			curly: true,
-			eqeqeq: false, // allow ==
-			immed: false, //
-			latedef: false, // late definition
-			newcap: false, // capitalize ctos
-			nonew: true, // no new ..()
-			noarg: true, 
-			sub: true,
-			undef: true,
-			//boss: true,
-			eqnull: true, // relax
-			browser: true,
-			regexp: true,
-			strict: true,
-			trailing: false,
-			smarttabs: true,
-			lastsemic: true
+c
 			},
 			globals: {
 				jQuery: true,
@@ -67,6 +51,6 @@ module.exports = function(grunt) {
 	});
 
 	// Default task.
-	grunt.registerTask('default', 'lint server test min');
+	grunt.registerTask('default', 'lint server qunit min');
 
 };

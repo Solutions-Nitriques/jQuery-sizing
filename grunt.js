@@ -66,6 +66,6 @@ module.exports = function(grunt) {
   });
 
   // Default task.
-  grunt.registerTask('default', 'lint min');
+  grunt.registerTask('default', 'lint server test min');
 
 };

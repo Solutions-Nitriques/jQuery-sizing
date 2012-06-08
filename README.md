@@ -18,7 +18,7 @@ http://www.deuxhuithuit.com/
 
 ### History ###
 
-- 1.3 - 2012-06-xx       
+- 1.3 - 2012-06-08       
   Added grunt and travis build files      
   \* TODO: Add unit testing
 

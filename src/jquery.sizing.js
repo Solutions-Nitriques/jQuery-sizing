@@ -319,15 +319,15 @@
 	
 	// ACTUAL PLUGIN
 	$.fn.extend({
-		centerCropFit: function () { return each.call(this, centerCropFit, arguments); },
-		cloneSize: cloneSize,
-		fitHeight: fitHeight,
-		fitWidthOnly: fitWidthOnly,
-		fit: fit,
-		oneLiner: function () { return each.call(this, oneLiner, arguments); },
-		saveOriginalSize: function () { return each.call(this, saveOriginalSize, arguments); },
-		getOriginalSize: function () { return each.call(this, getOriginalSize, arguments); },
-		offsetPosition: function () { return each.call(this, offsetPosition, arguments); }
+		centerCropFit:			function () { return each.call(this, centerCropFit, arguments); },
+		cloneSize:				function () { return each.call(this, fitHeight, arguments); },
+		fitHeight:				function () { return each.call(this, fitHeight, arguments); },
+		fitWidthOnly:			function () { return each.call(this, fitWidthOnly, arguments); },
+		fit:					function () { return each.call(this, fit, arguments); },
+		oneLiner:				function () { return each.call(this, oneLiner, arguments); },
+		saveOriginalSize:		function () { return each.call(this, saveOriginalSize, arguments); },
+		getOriginalSize:		function () { return each.call(this, getOriginalSize, arguments); },
+		offsetPosition:			function () { return each.call(this, offsetPosition, arguments); }
 	});
 	
 	$.extend({

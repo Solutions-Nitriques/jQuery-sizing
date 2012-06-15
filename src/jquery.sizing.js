@@ -317,7 +317,7 @@
 		}
 	};
 	
-	// ACTUAL PLUGIN
+	// ACTUAL PLUGINS
 	$.fn.extend({
 		centerCropFit:			function () { return each.call(this, centerCropFit, arguments); },
 		cloneSize:				function () { return each.call(this, fitHeight, arguments); },
@@ -326,7 +326,7 @@
 		fit:					function () { return each.call(this, fit, arguments); },
 		oneLiner:				function () { return each.call(this, oneLiner, arguments); },
 		saveOriginalSize:		function () { return each.call(this, saveOriginalSize, arguments); },
-		getOriginalSize:		function () { return each.call(this, getOriginalSize, arguments); },
+		getOriginalSize:		getOriginalSize, // no each for a getter
 		offsetPosition:			function () { return each.call(this, offsetPosition, arguments); }
 	});
 	

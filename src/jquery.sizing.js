@@ -138,7 +138,7 @@
 	innerFit = function (options) {
 		var size = _innerFit(options);
 		
-		$(this).width(size.w).height(size.h);
+		$(this).width(size.width).height(size.height);
 	},
 	
 	cloneSize = function (options) {

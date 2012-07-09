@@ -7,12 +7,14 @@
  */
 
 (function ($, undefined) {
-
+	
 	"use strict";
-
+	
+	var
+	
 	// fit the required height and resize the width preserving the aspect ratio
 	// stops at max values
-	var fitHeight = function (width, height, mw, mh) {
+	fitHeight = function (width, height, mw, mh) {
 
 		// compute w relative to h
 		var ratio = mw / mh,
@@ -64,6 +66,9 @@
 				// use max values
 				width = mw;
 			}
+			if (height > mh) {
+				height = mh;
+			}
 		}
 		
 		if (!ratio) {
@@ -73,7 +78,7 @@
 		} else {
 			// try to make it fit with the width
 			w = width;
-			h = w * (1 / ratio);
+			h = w * sdiv(1, ratio);
 			
 			// if the height is too small
 			if (h < height) {
@@ -86,6 +91,36 @@
 		}
 
 		// actual resize
+		$(this).width(w).height(h);
+	},
+	
+	innerFit = function (options) {
+		var o = $.extend({}, options, {
+				width: null,
+				height: null,
+				reference: null,
+				ratio: null,
+				maxHeight: null,
+				maxWidth: null
+			}),
+			h = o.height,
+			w = o.width;
+		
+		if (!!o.reference) {
+			w = $(o.reference).width();
+			h = $(o.reference).height();
+		}
+		
+		if (h > maxHeight) {
+			h = maxHeight;
+			w = maxHeight * sdiv(1, o.ratio);
+		}
+		
+		if (w > maxWidth) {
+			h = maxWidth * o.ratio;
+			w = maxWidth;
+		}
+		
 		$(this).width(w).height(h);
 	},
 	

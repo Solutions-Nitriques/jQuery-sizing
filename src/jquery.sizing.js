@@ -94,7 +94,7 @@
 		$(this).width(w).height(h);
 	},
 	
-	innerFit = function (options) {
+	_innerFit = function (options) {
 		var o = $.extend({}, options, {
 				width: null,
 				height: null,
@@ -121,7 +121,16 @@
 			w = maxWidth;
 		}
 		
-		$(this).width(w).height(h);
+		return {
+			width: w,
+			height: h
+		}
+	},
+	
+	innerFit = function (options) {
+		var size = _innerFit(options);
+		
+		$(this).width(size.w).height(size.h);
 	},
 	
 	cloneSize = function (options) {
@@ -359,6 +368,7 @@
 		fitHeight:				function () { return each.call(this, fitHeight, arguments); },
 		fitWidthOnly:			function () { return each.call(this, fitWidthOnly, arguments); },
 		fit:					function () { return each.call(this, fit, arguments); },
+		innerFit:				function () { return each.call(this, innerFit, arguments); },
 		oneLiner:				function () { return each.call(this, oneLiner, arguments); },
 		saveOriginalSize:		function () { return each.call(this, saveOriginalSize, arguments); },
 		getOriginalSize:		getOriginalSize, // no each for a getter
@@ -372,7 +382,8 @@
 				return 0;
 			}
 			return n/d;
-		}
+		},
+		innerFit: _innerFit
 	});
 	
 })(jQuery);

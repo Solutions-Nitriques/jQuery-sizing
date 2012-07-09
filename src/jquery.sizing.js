@@ -103,32 +103,44 @@
 	},
 	
 	_innerFit = function (options) {
-		var o = $.extend({}, options, {
+		var o = $.extend({},  {
 				width: null,
 				height: null,
 				reference: null,
 				ratio: null,
 				maxHeight: null,
 				maxWidth: null
-			}),
+			}, options),
 			h = o.height,
 			w = o.width;
 		
-		if (!!o.reference) {
-			w = $(o.reference).width();
-			h = $(o.reference).height();
+		if (o.maxHeight != null || o.maxWidth != null) { // use null here as null == undefined
+			if (w > o.maxWidth) {
+				// use max values
+				w = o.maxWidth;
+			}
+			if (h > o.maxHeight) {
+				h = o.maxHeight;
+			}
 		}
 		
-		if (h > o.maxHeight) {
-			h = o.maxHeight;
-			w = o.maxHeight * sdiv(1, o.ratio);
+		if (!o.ratio) {
+			//console.warn('sizing: no ratio found');
+		} else {
+			
+			// try to make it fit with the width
+			
+			h = w * sdiv(1, o.ratio);
+			
+			// if the height is too big
+			if (h > o.height) {
+				h = o.height;
+				w = o.ratio * h;
+				//console.info('sizing: height');
+			} else {
+				//console.info('sizing: width');
+			}
 		}
-		
-		if (w > o.maxWidth) {
-			h = o.maxWidth * o.ratio;
-			w = o.maxWidth;
-		}
-		
 		return {
 			width: w,
 			height: h
@@ -136,7 +148,21 @@
 	},
 	
 	innerFit = function (options) {
-		var size = _innerFit(options);
+		var o = $.extend({},  {
+				width: null,
+				height: null,
+				reference: null,
+				ratio: null,
+				maxHeight: null,
+				maxWidth: null
+			}, options);
+		
+		if(!!o.reference) {
+			o.width = $(o.reference).width();
+			o.height = $(o.reference).height();
+		}
+		
+		var size = _innerFit(o);
 		
 		$(this).width(size.width).height(size.height);
 	},

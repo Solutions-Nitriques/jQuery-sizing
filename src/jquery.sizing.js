@@ -12,6 +12,14 @@
 	
 	var
 	
+	// safe division
+	sdiv = function (n, d) {
+		if (!n || !d) {
+			return 0;
+		}
+		return n/d;
+	},
+	
 	// fit the required height and resize the width preserving the aspect ratio
 	// stops at max values
 	fitHeight = function (width, height, mw, mh) {
@@ -111,20 +119,20 @@
 			h = $(o.reference).height();
 		}
 		
-		if (h > maxHeight) {
-			h = maxHeight;
-			w = maxHeight * sdiv(1, o.ratio);
+		if (h > o.maxHeight) {
+			h = o.maxHeight;
+			w = o.maxHeight * sdiv(1, o.ratio);
 		}
 		
-		if (w > maxWidth) {
-			h = maxWidth * o.ratio;
-			w = maxWidth;
+		if (w > o.maxWidth) {
+			h = o.maxWidth * o.ratio;
+			w = o.maxWidth;
 		}
 		
 		return {
 			width: w,
 			height: h
-		}
+		};
 	},
 	
 	innerFit = function (options) {
@@ -377,12 +385,7 @@
 	
 	$.extend({
 		// safe divide function
-		sdiv: function (n, d) {
-			if (!n || !d) {
-				return 0;
-			}
-			return n/d;
-		},
+		sdiv: sdiv,
 		innerFit: _innerFit
 	});
 	

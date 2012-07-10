@@ -1,8 +1,8 @@
 {
   "name": "jquery.sizing",
   "title": "jQuery Sizing",
-  "description": "",
-  "version": "1.3",
+  "description": "Bundle of sizing functions, exposed as a jQuery plugin",
+  "version": "2.0",
   "homepage": "https://github.com/Solutions-Nitriques/jQuery-sizing",
   "author": {
     "name": "Deux Huit Huit",

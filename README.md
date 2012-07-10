@@ -1,6 +1,6 @@
 # jQuery sizing [![Build Status](https://secure.travis-ci.org/Solutions-Nitriques/jQuery-sizing.png?branch=master)](http://travis-ci.org/Solutions-Nitriques/jQuery-sizing)
 
-Version: 1.3 
+Version: 2.0 
 
 ## Bundle of sizing functions, exposed as a jQuery plugin
 
@@ -17,6 +17,12 @@ TODO
 http://www.deuxhuithuit.com/
 
 ### History ###
+
+- 2.0 - 2012-XX-XX
+  Refactored the project to reuse the vocabulary defined by Apple
+  More code reuse
+  More testability
+  More maintainability
 
 - 1.3 - 2012-06-08       
   Added grunt and travis build files      

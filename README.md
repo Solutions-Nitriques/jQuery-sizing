@@ -18,11 +18,11 @@ http://www.deuxhuithuit.com/
 
 ### History ###
 
-- 2.0 - 2012-XX-XX
-  Refactored the project to reuse the vocabulary defined by Apple
-  More code reuse
-  More testability
-  More maintainability
+- 2.0 - 2012-XX-XX       
+  Refactored the project to reuse the vocabulary defined by Apple      
+  More code reuse      
+  More testability     
+  More maintainability      
 
 - 1.3 - 2012-06-08       
   Added grunt and travis build files      

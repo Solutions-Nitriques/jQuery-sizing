@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="../qunit/qunit.css" type="text/css"/>
 	
 	<style type="text/css">
-
+		#clone-size {width:100px;height:100px;}
   	</style>
 	
 	<script>
@@ -40,23 +40,67 @@
     <h2 id="qunit-userAgent"></h2>  
     <ol id="qunit-tests"></ol>
 	
-	<div id="div"></div>
+	<div id="clone-size"></div>
 
 	<script src="../src/jquery.sizing.js"></script> 
 	<script src="../qunit/qunit.js"></script>
 	<script>
 	(function ($) {
 		
+		"use strict";
+		
 		var _private = null,
-			$div = $('#div');
+			$cloneSize = $('#clone-size');
 		
 		function runTests () {
 			
 			module('jQuery.sizing');
 			
-			test('null', function () {
-				ok(true, 'Simple test');
+			test('_cloneSize - Clone size', function cloneSizeTest () {
+				var actual = $.sizing.cloneSize(),
+					expected = {
+						width: $(window).width(),
+						height: $(window).height(),
+						ratio:undefined
+					};
+				
+				deepEqual(actual, expected, 'window size');
+				
+				actual = $.sizing.cloneSize({width:100, height:100});
+				expected = {
+					width: 100,
+					height: 100,
+					ratio:undefined
+				};
+				
+				deepEqual(actual, expected, '100 x 100');
+				
+				actual = $.sizing.cloneSize({reference:'#clone-size'});
+				
+				deepEqual(actual, expected, '100 x 100');
 			});
+			
+			test('_scaleAspectFit - Inner Fit (blanks)', function _scaleAspectFitTest () {
+				var actual = $.sizing._private._scaleAspectFit(),
+					expected = {
+						width: 100,
+						height: 100
+					};
+				
+				deepEqual(actual, expected, '100 x 100');
+			});
+			
+			test('_scaleAspectFill - Outer Fit (crop)', function _scaleAspectFillTest () {
+				var actual = $.sizing._private._scaleAspectFill(),
+					expected = {
+						width: 100,
+						height: 100
+					};
+				
+				deepEqual(actual, expected, '100 x 100');
+			});
+			
+			
 		};
 		
 		$(runTests);

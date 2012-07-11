@@ -12,13 +12,43 @@
 	
 	var
 	
-	// safe division - declared here to help compilers :)
+	win = $(window),
+	
+	m = Math,
+	
+	/**
+	 * Safe Division that returns 0 as safe value.
+	 * This unifies the ECMA spec with a safe result for sizing
+	 * Declared here to help compilers :)
+	 * 
+	 * @param @optional numerator
+	 * @param @optional denominator
+	 * @return int
+	 */
 	sdiv = function (n, d) {
-		if (!n || !d) {
-			return 0;
-		}
-		return n/d;
+		return (!n || !d) ? 0 : n/d;
 	},
+	
+	/**
+	 * Factory method to create a size object
+	 * 
+	 * @param @optional width
+	 * @param @optional height
+	 * @param @optional ratio
+	 * @return Object
+	 */
+	newSize = function (w, h, r) {
+		return {width:w||0,height:h||0,ratio:r||sdiv(w,h)};
+	},
+	
+	/**
+	 * Get the size of a jQuery object
+	 * @return Object
+	 */
+	size = function () {
+		var t = $(this);
+		return newSize(t.width(), t.height());
+	};
 	
 	
 	/* SIZING ****************************************************************/
@@ -26,8 +56,101 @@
 	// Resize content modes
 	// @See: http://developer.apple.com/library/ios/#documentation/uikit/reference/UIView_Class/UIView/UIView.html#//apple_ref/occ/cl/UIView
 	
-	// fit the required height and resize the width preserving the aspect ratio
-	// stops at max values
+	/**
+	 * Copies an object size.
+	 * This method is a multi-use shortcut.
+	 * 
+	 * @param @optional options.reference
+	 * @param @optional options.width
+	 * @param @optional options.height
+	 * @return Object
+	 */
+	_cloneSize = function (options) {
+		var size = newSize();
+
+		if (!!options && options.reference) {
+			// clone the reference
+			size.width = $(options.reference).width();
+			size.height = $(options.reference).height();
+		
+		} else if (!!options.width || !!options.height) {
+			// use fallback values
+			size.width = options.width;
+			size.height = options.height;
+			
+		} else {
+			// use window as reference
+			size.width = win.width();
+			size.height = win.height();
+		}
+		
+		return size;
+	},
+	
+	/**
+	 * Actual jQuery plugin.
+	 * @return jQuery
+	 */
+	scaleToFit = function (options) {
+		var size = _cloneSize(options);
+		return $(this).width(size.width).height(size.height);
+	},
+	
+	/**
+	 * 
+	 */
+	_processAspectPropVal = function (options, prop, op, value) {
+		var opFx = m[op] || m.max;
+			
+		
+	},
+	
+	/**
+	 * Utility method that return a size object.
+	 * It first tries to 
+	 */
+	_scaleAspect = function (options) {
+		// process firstpass with prefered option
+		
+		// if is does not fit
+	},
+	
+	/**
+	 * Fit the required height and resize the width preserving the aspect ratio .
+	 * Assure that all of the target will be inside limits (no cropping)
+	 * 
+	 * 
+	 */
+	_aspectFit = function () {
+		
+	},
+	
+	/**
+	 * Fit the required height and resize the width preserving the aspect ratio .
+	 * Assure that all of the target will fill the limit (cropping may occur)
+	 * 
+	 * 
+	 */
+	_aspectFill = function () {
+		
+	},
+	
+	/**
+	 * Actual jQuery plugin.
+	 * @return jQuery
+	 */
+	scaleAspectFit = function (options) {
+		// process firstpass with prefered option
+		
+		// if is does not fit with the first pass
+		// use secondProp
+		
+		// Check to see if it meets max criteria
+		
+		// Check to see if it meets min criteria
+	},
+	
+	//
 	fitHeight = function (width, height, mw, mh) {
 		
 		// compute w relative to h
@@ -147,10 +270,7 @@
 				//console.info('sizing: width');
 			}
 		}
-		return {
-			width: w,
-			height: h
-		};
+		return newSize(w,h);
 	},
 	
 	innerFit = function (options) {
@@ -176,9 +296,17 @@
 	
 	/* POSITIONING ***********************************************************/
 	
+	/*
+	 * Should those method should be moved elsewhere???
+	 * It's not sizing, it's positioning (?!?!)
+	 * But we could couple those two to create something great...
+	 */
+	
 	/** 
 	 * Centers the image based on the params instead of resizing the image, 
 	 * the image is moved in order to stay centered
+	 * 
+	 * 
 	 */
 	centerCropFit = function (width, height, options) {
 		var t = $(this),
@@ -204,15 +332,19 @@
 		if (o.top) {
 			t.css(o.top, top);
 		}
+		return t;
 	},
 	
 	/**
-	 * This method should be moved elsewhere.
-	 * It's not sizing, it's positioning
+	 * 
 	 *
 	 * This method permits to move some element according to
 	 * a specific number of pixel even if the current CSS
 	 * uses other units (i.e. 100% - 50px)
+	 * 
+	 * @param @optional options.prop string
+	 * @param @optional options.offset int
+	 * @return jQuery
 	 */
 	offsetPosition = function (options) {
 		var t = $(this),
@@ -249,55 +381,57 @@
 		} else {
 			//console.log('[sizing] offsetPosition skipped');
 		}
+		return t;
 	},
 	
 	
 	
 	/* SIZE MANAGEMENT *******************************************************/
 	
-	saveOriginalSize = function () {
+	/**
+	 * Save the current object size for use later on...
+	 * @param @optional returnValue boolean
+	 * @return jQuery | Object
+	 */
+	saveOriginalSize = function (returnValue) {
 		var t = $(this),
-			o = {
-				width: t.width(),
-				height: t.height(),
-				ratio:  $.sdiv(t.width(),t.height())
-			};
+			o = t.size();
 		
 		t.data('original-size', o);
 		
-		return t;
-	},
-	
-	getOriginalSize = function () {
-		return $(this).eq(0).data('original-size');
+		return returnValue ? o : t;
 	},
 	
 	/**
-	 * 
+	 * Get the current original size
+	 * @return Object
 	 */
-	cloneSize = function (options) {
-		if (options && options.reference) {
-			
-			options.width = $(options.reference).width();
-			options.height = $(options.reference).height();
-			
-		} else {
-			options = {
-				width: $(window).width(),
-				height: $(window).height(),
-				reference: window
-			};
+	getOriginalSize = function () {
+		var t = $(this).eq(0),
+			size = t.data('original-size');
+		if (!size) {
+			size = t.saveOriginalSize(true);
 		}
-		
-		$(this).width(options.width).height(options.height);
+		return size;
+	},
+	
+	/**
+	 * Delete the current value of the original size
+	 * @return jQuery
+	 */
+	clearOriginalSize = function () {
+		$(this).data('original-size', null);
+		return this;
 	},
 	
 	
 	/* UTILITIES *************************************************************/
 	
 	/**
-	 * Utility method to facilitate working with
-	 * jQuery objects.
+	 * Utility method to facilitate working with jQuery objects.
+	 * @param callback
+	 * @param arguments
+	 * @return jQuery
 	 */
 	each = function (callback, args) {
 		var t = $(this);
@@ -316,18 +450,18 @@
 	/* ACTUAL PLUGINS ********************************************************/
 	
 	$.fn.extend({
-		// resize algorithm
-		fitHeight:				function () { return each.call(this, fitHeight, arguments); },
-		fitWidthOnly:			function () { return each.call(this, fitWidthOnly, arguments); },
-		fit:					function () { return each.call(this, fit, arguments); },
-		innerFit:				function () { return each.call(this, innerFit, arguments); },
+		// Resizing/Scaling algorithm
+		scaleToFill:			function () { return each.call(this, scaleToFill, arguments); },
+		scaleToAspectFit:		function () { return each.call(this, fitHeight, arguments); },
+		scaleToAspectFill:		function () { return each.call(this, fitWidthOnly, arguments); },
+		size:					size,
 		
-		// cloning, saving, getting sizes
-		cloneSize:				function () { return each.call(this, fitHeight, arguments); },
+		// setting / getting original sizes
 		saveOriginalSize:		function () { return each.call(this, saveOriginalSize, arguments); },
-		getOriginalSize:		getOriginalSize, // no each for a getter
+		clearOriginalSize:		function () { return each.call(this, clearOriginalSize, arguments); },
+		getOriginalSize:		getOriginalSize, // no each for a getter, we want the value !!!
 		
-		// Should be moved ?? - positioning...
+		// Positioning
 		offsetPosition:			function () { return each.call(this, offsetPosition, arguments); },
 		centerCropFit:			function () { return each.call(this, centerCropFit, arguments); }
 	});
@@ -335,7 +469,27 @@
 	$.extend({
 		// safe divide function
 		sdiv: sdiv,
-		innerFit: _innerFit
+		
+		// create fast size object
+		size: newSize,
+		
+		// Utils: just the Maths!
+		sizing: {
+			cloneSize: _cloneSize,
+			aspectFit: _aspectFit,
+			aspectFill: _aspectFill 
+		},
+		positioning: {
+			center: null,
+			top: null,
+			right: null,
+			bottom: null,
+			left: null,
+			topleft: null,
+			topright: null,
+			bottomright: null,
+			bottomleft: null
+		}
 	});
 	
 })(jQuery);

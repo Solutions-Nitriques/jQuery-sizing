@@ -19,7 +19,8 @@ http://www.deuxhuithuit.com/
 ### History ###
 
 - **2.0 - 2012-XX-XX**       
-  Refactored the project to reuse the vocabulary defined by Apple      
+  Refactored the project to reuse the vocabulary defined by Apple    
+  Extract the oneLiner method: It now in a separated project    
   More code reuse      
   More testability     
   More maintainability

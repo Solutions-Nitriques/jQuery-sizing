@@ -5,7 +5,6 @@
  *  Copyright (c) 2011 Solutions Nitriques (http://www.nitriques.com/open-source/)
  *  Licensed under the MIT (https://raw.github.com/Solutions-Nitriques/jQuery-sizing/blob/master/LICENSE.txt)
  */
-
 (function ($, undefined) {
 	
 	"use strict";
@@ -27,6 +26,20 @@
 	 */
 	sdiv = function (n, d) {
 		return (!n || !d) ? 0 : n/d;
+	},
+	
+	/**
+	 * Simple numeric comparison.
+	 * Returns 0 if params are equal (==), 1 if a > b, -1 otherwise
+	 * @param a
+	 * @param b
+	 * @return int
+	 */
+	cmp = function (a, b) {
+		if (a == b) {
+			return 0;
+		}
+		return a > b ? 1 : -1;
 	},
 	
 	/**
@@ -89,6 +102,7 @@
 	
 	/**
 	 * Actual jQuery plugin.
+	 * Makes the target the same size as the reference
 	 * @return jQuery
 	 */
 	scaleToFit = function (options) {
@@ -97,22 +111,31 @@
 	},
 	
 	/**
-	 * 
+	 * Method that tries to abstract the property names from the logic.
+	 * We are dealing with 2 possibles orders (w,h) or (h,w) but since it's
+	 * always the same process, this method makes testing a lot more easier and
+	 * more extendable.
+	 * @param firstPropertyName
+	 * @param secondPropertyName
+	 * @param firstPropertyValue - the target value
+	 * @param secondPropertyValue - the target value
+	 * @param ratio - the aspect ratio
+	 * @param comparisonResult - the wanted comparison result ( lessthan:-1, greaterthen:1)
 	 */
-	_processAspectPropVal = function (options, prop, op, value) {
-		var opFx = m[op] || m.max;
-			
+	_processAspectProperty = function (fProp, sProp, fValue, sValue, ratio, compare) {
+		var r = fProp == 'width' ? sdiv(1, ratio) : ratio; 
+			fVal = fValue,
+			sVal = fValue * r;
 		
-	},
-	
-	/**
-	 * Utility method that return a size object.
-	 * It first tries to 
-	 */
-	_scaleAspect = function (options) {
-		// process firstpass with prefered option
+		if (cmp(sVal, sValue) == compare) {
+			fVal = sVal * sdiv(1, r); // inverted
+			sVal = sValue;
+		}
 		
-		// if is does not fit
+		ret[fProp] = fVal;
+		ret[sProp] = sVal;
+		
+		return ret;
 	},
 	
 	/**
@@ -121,7 +144,7 @@
 	 * 
 	 * 
 	 */
-	_aspectFit = function () {
+	_aspectFit = function (options) {
 		
 	},
 	
@@ -140,6 +163,9 @@
 	 * @return jQuery
 	 */
 	scaleAspectFit = function (options) {
+		var firstProp = !!options.preferWidth ? 'width' : 'height',
+			secondProp = !options.preferWidth ? 'height' : 'width';
+		
 		// process firstpass with prefered option
 		
 		// if is does not fit with the first pass
@@ -149,6 +175,10 @@
 		
 		// Check to see if it meets min criteria
 	},
+	
+	
+	
+	
 	
 	//
 	fitHeight = function (width, height, mw, mh) {

@@ -15,6 +15,8 @@
 	
 	m = Math,
 	
+	ORIGINAL_SIZE = 'original-size',
+	
 	/**
 	 * Safe Division that returns 0 as safe value.
 	 * This unifies the ECMA spec with a safe result for sizing
@@ -266,9 +268,9 @@
 			top = $.sdiv(dh, 2);
 		
 		// fix top
-		if (o.position.indexOf('top')) {
+		if (!!~o.position.indexOf('top')) {
 			top = 0;
-		} else if (o.position.indexOf('bottom')) {
+		} else if (!!~o.position.indexOf('bottom')) {
 			top = dh;
 		}
 		
@@ -370,12 +372,12 @@
 	 * @return jQuery | Object
 	 */
 	saveOriginalSize = function (returnValue) {
-		var t = $(this),
+		var t = $(this).eq(0),
 			o = t.size();
 		
-		t.data('original-size', o);
+		t.data(ORIGINAL_SIZE, o);
 		
-		return returnValue ? o : t;
+		return !!returnValue ? o : t;
 	},
 	
 	/**
@@ -384,9 +386,9 @@
 	 */
 	originalSize = function () {
 		var t = $(this).eq(0),
-			size = t.data('original-size');
+			size = t.data(ORIGINAL_SIZE);
 		if (!size) {
-			size = t.saveOriginalSize(true);
+			size = saveOriginalSize.call(t, true);
 		}
 		return size;
 	},
@@ -397,7 +399,7 @@
 	 * @return jQuery
 	 */
 	clearOriginalSize = function () {
-		$(this).data('original-size', null);
+		$(this).data(ORIGINAL_SIZE, null);
 		return this;
 	},
 	
@@ -405,7 +407,8 @@
 	/* UTILITIES *************************************************************/
 	
 	/**
-	 * Utility method to facilitate working with jQuery objects.
+	 * Utility method to facilitate working with jQuery objects
+	 * in all plugins
 	 * @param callback
 	 * @param arguments
 	 * @return jQuery
@@ -413,8 +416,8 @@
 	each = function (callback, args) {
 		var t = $(this);
 			
-		if (t && t.length >= 0 && $.isFunction(callback)) {
-			t.each(function() {
+		if (!!t && t.length >= 0 && $.isFunction(callback)) {
+			t.each(function eachCallback () {
 				callback.apply(this, args);
 			});
 		}
@@ -434,7 +437,7 @@
 		size:					size,
 		
 		// setting / getting original sizes
-		saveOriginalSize:		function () { return each.call(this, saveOriginalSize, arguments); },
+		saveOriginalSize:		function (o) { if (o === true) {return saveOriginalSize.call(this, true);} return each.call(this, saveOriginalSize, arguments); },
 		clearOriginalSize:		function () { return each.call(this, clearOriginalSize, arguments); },
 		originalSize:			originalSize, // no each for a getter, we want the value !!!
 		

@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="../qunit/qunit.css" type="text/css"/>
 	
 	<style type="text/css">
+		#original-size {width:1px;height:1px;}
 		#size {width:10px;height:20px;}
 		#clone-size {width:100px;height:100px;}
   	</style>
@@ -41,8 +42,9 @@
     <h2 id="qunit-userAgent"></h2>  
     <ol id="qunit-tests"></ol>
 	
-	<div id="size"></div>
-	<div id="clone-size"></div>
+	<div id="original-size">original-size</div>
+	<div id="size">size</div>
+	<div id="clone-size">clone-size</div>
 
 	<script src="../src/jquery.sizing.js"></script> 
 	<script src="../qunit/qunit.js"></script>
@@ -51,12 +53,12 @@
 		
 		"use strict";
 		
-		var _private = null,
-			$size = $('#size'),
-			$cloneSize = $('#clone-size');
-			
+		var 
+		$originalSize = $('#original-size'),
+		$size = $('#size'),
+		$cloneSize = $('#clone-size'),
 		
-		function runTests () {
+		runTests = function  () {
 			
 			module('jQuery.sizing');
 			
@@ -84,6 +86,26 @@
 				deepEqual(actual, expected, 'get setted size');
 			});
 			
+			test('original size - get/set', function sizeTest () {
+				var expected = $originalSize.size(),
+					actual = $originalSize.originalSize(),
+					newSize = $.size(100, 200);
+					
+				deepEqual(actual, expected, 'native css size');
+				
+				// resize
+				$originalSize = $originalSize.size(newSize);
+				
+				actual = $originalSize.originalSize();
+				deepEqual(actual, expected, 'value have not change after resize');
+				
+				// clear
+				$originalSize.clearOriginalSize();
+				actual = $originalSize.saveOriginalSize(true);
+				expected = newSize;
+				deepEqual(actual, expected, 'new original size');
+			});
+			
 			test('_cloneSize - Clone size', function cloneSizeTest () {
 				var actual = $.sizing.cloneSize(),
 					expected = {
@@ -106,6 +128,12 @@
 				actual = $.sizing.cloneSize({reference:'#clone-size'});
 				
 				deepEqual(actual, expected, 'reference 100 x 100');
+				
+				actual = $.sizing.cloneSize({
+					reference: $('#clone-size').get(0)
+				});
+				
+				deepEqual(actual, expected, 'DOM reference 100 x 100');
 			});
 			
 			test('_aspectFit - Inner Fit (blanks)', function _aspectFitTest () {
@@ -148,20 +176,69 @@
 					};
 				
 				deepEqual(actual, expected, 'center 		100 x 100 in 200 x 200');
+				
+				options.position = 'top';
+				actual = $.positioning.autoPosition(options, wrapSize, targetSize);
+				expected = {left:50,top:0};
 				deepEqual(actual, expected, 'top			100 x 100 in 200 x 200');
+				
+				options.position = 'right';
+				actual = $.positioning.autoPosition(options, wrapSize, targetSize);
+				expected = {left:100,top:50};
 				deepEqual(actual, expected, 'right			100 x 100 in 200 x 200');
+				
+				options.position = 'bottom';
+				actual = $.positioning.autoPosition(options, wrapSize, targetSize);
+				expected = {left:50,top:100};
 				deepEqual(actual, expected, 'bottom			100 x 100 in 200 x 200');
+				
+				options.position = 'left';
+				actual = $.positioning.autoPosition(options, wrapSize, targetSize);
+				expected = {left:0,top:50};
 				deepEqual(actual, expected, 'left			100 x 100 in 200 x 200');
+				
+				options.position = 'topleft';
+				actual = $.positioning.autoPosition(options, wrapSize, targetSize);
+				expected = {left:0,top:0};
 				deepEqual(actual, expected, 'topleft		100 x 100 in 200 x 200');
+				
+				options.position = 'topright';
+				actual = $.positioning.autoPosition(options, wrapSize, targetSize);
+				expected = {left:100,top:0};
 				deepEqual(actual, expected, 'topright		100 x 100 in 200 x 200');
+				options.position = 'top right';
+				actual = $.positioning.autoPosition(options, wrapSize, targetSize);
+				deepEqual(actual, expected, 'top right		100 x 100 in 200 x 200');
+				
+				options.position = 'bottomleft';
+				actual = $.positioning.autoPosition(options, wrapSize, targetSize);
+				expected = {left:0,top:100};
 				deepEqual(actual, expected, 'bottomleft		100 x 100 in 200 x 200');
+				options.position = 'bottom-left';
+				actual = $.positioning.autoPosition(options, wrapSize, targetSize);
+				deepEqual(actual, expected, 'bottom-left		100 x 100 in 200 x 200');
+				
+				options.position = 'bottomright';
+				actual = $.positioning.autoPosition(options, wrapSize, targetSize);
+				expected = {left:100,top:100};
 				deepEqual(actual, expected, 'bottomright	100 x 100 in 200 x 200');
+				
+				options.position = 'center';
+				wrapSize = $.size(50,100);
+				expected = {left:-25,top:0};
+				actual = $.positioning.autoPosition(options, wrapSize, targetSize);
+				deepEqual(actual, expected, 'center			100 x 100 in 50 x 100 - negative');
+				
+				options.allowNegative = false;
+				wrapSize = $.size(100,50);
+				expected = {left:0,top:0};
+				actual = $.positioning.autoPosition(options, wrapSize, targetSize);
+				deepEqual(actual, expected, 'center			100 x 100 in 50 x 100 - no negative');
 			});
 			
-			
-		};
+		}; // end run tests
 		
-		$(runTests);
+		$(window).load(runTests);
 		
 	})(jQuery);
 	</script>

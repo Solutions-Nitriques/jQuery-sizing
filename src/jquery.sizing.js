@@ -127,7 +127,8 @@
 	 * @param comparisonResult - the wanted comparison result ( lessthan:-1, greaterthen:1)
 	 */
 	_processAspectProperty = function (fProp, sProp, fValue, sValue, ratio, compare) {
-		var r = (fProp == 'width') ? sdiv(1, ratio) : ratio; 
+		var ret = {},
+			r = (fProp == 'width') ? sdiv(1, ratio) : ratio,
 			fVal = fValue,
 			sVal = fValue * r;
 		
@@ -159,7 +160,8 @@
 						maxHeight: null,
 						maxWidth: null,
 						minWidth: null,
-						minHeight: null
+						minHeight: null,
+						preferWidth: true
 					}, options);
 		var 
 		// get prop order

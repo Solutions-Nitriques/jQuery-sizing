@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="../qunit/qunit.css" type="text/css"/>
 	
 	<style type="text/css">
+		#size {width:10px;height:20px;}
 		#clone-size {width:100px;height:100px;}
   	</style>
 	
@@ -40,6 +41,7 @@
     <h2 id="qunit-userAgent"></h2>  
     <ol id="qunit-tests"></ol>
 	
+	<div id="size"></div>
 	<div id="clone-size"></div>
 
 	<script src="../src/jquery.sizing.js"></script> 
@@ -50,18 +52,44 @@
 		"use strict";
 		
 		var _private = null,
+			$size = $('#size'),
 			$cloneSize = $('#clone-size');
+			
 		
 		function runTests () {
 			
 			module('jQuery.sizing');
+			
+			test('size - get/set', function sizeTest () {
+				var actual = $size.size(),
+					expected = {
+						width: 10,
+						height: 20,
+						ratio: 0.5
+					};
+					
+				deepEqual(actual, expected, 'get css size');
+				
+				$size = $size.size({width:100, height:200});
+				
+				ok($size.length, 'setter returned jQuery');
+				
+				actual = $size.size();
+				expected = {
+					width: 100,
+					height: 200,
+					ratio: 0.5
+				};
+				
+				deepEqual(actual, expected, 'get setted size');
+			});
 			
 			test('_cloneSize - Clone size', function cloneSizeTest () {
 				var actual = $.sizing.cloneSize(),
 					expected = {
 						width: $(window).width(),
 						height: $(window).height(),
-						ratio:undefined
+						ratio: $.sdiv($(window).width(), $(window).height())
 					};
 				
 				deepEqual(actual, expected, 'window size');
@@ -70,18 +98,21 @@
 				expected = {
 					width: 100,
 					height: 100,
-					ratio:undefined
+					ratio:1
 				};
 				
-				deepEqual(actual, expected, '100 x 100');
+				deepEqual(actual, expected, 'object 100 x 100');
 				
 				actual = $.sizing.cloneSize({reference:'#clone-size'});
 				
-				deepEqual(actual, expected, '100 x 100');
+				deepEqual(actual, expected, 'reference 100 x 100');
 			});
 			
-			test('_scaleAspectFit - Inner Fit (blanks)', function _scaleAspectFitTest () {
-				var actual = $.sizing._private._scaleAspectFit(),
+			test('_aspectFit - Inner Fit (blanks)', function _aspectFitTest () {
+				var options = {
+					
+					},
+					actual = $.sizing.aspectFit(options, 1),
 					expected = {
 						width: 100,
 						height: 100
@@ -90,14 +121,41 @@
 				deepEqual(actual, expected, '100 x 100');
 			});
 			
-			test('_scaleAspectFill - Outer Fit (crop)', function _scaleAspectFillTest () {
-				var actual = $.sizing._private._scaleAspectFill(),
+			test('_aspectFill - Outer Fit (crop)', function _aspectFillTest () {
+				var options = {
+					
+					},
+					actual = $.sizing.aspectFill(options, 1),
 					expected = {
 						width: 100,
 						height: 100
 					};
 				
 				deepEqual(actual, expected, '100 x 100');
+			});
+			
+			test('_autoPosition - Position with strings', function _autoPositionTest () {
+				var options = {
+						left: 'left',
+						top: 'top'
+					},
+					wrapSize = $.size(200,200),
+					targetSize = $.size(100,100),
+					actual = $.positioning.autoPosition(options, wrapSize, targetSize),
+					expected = {
+						left: 50,
+						top: 50
+					};
+				
+				deepEqual(actual, expected, 'center 		100 x 100 in 200 x 200');
+				deepEqual(actual, expected, 'top			100 x 100 in 200 x 200');
+				deepEqual(actual, expected, 'right			100 x 100 in 200 x 200');
+				deepEqual(actual, expected, 'bottom			100 x 100 in 200 x 200');
+				deepEqual(actual, expected, 'left			100 x 100 in 200 x 200');
+				deepEqual(actual, expected, 'topleft		100 x 100 in 200 x 200');
+				deepEqual(actual, expected, 'topright		100 x 100 in 200 x 200');
+				deepEqual(actual, expected, 'bottomleft		100 x 100 in 200 x 200');
+				deepEqual(actual, expected, 'bottomright	100 x 100 in 200 x 200');
 			});
 			
 			

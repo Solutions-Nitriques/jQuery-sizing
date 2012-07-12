@@ -55,13 +55,16 @@
 	},
 	
 	/**
-	 * Get the size of a jQuery object
-	 * @return Object
+	 * Get/Set the size of a jQuery object
+	 * @return Object/jQuery
 	 */
-	size = function () {
+	size = function (s) {
 		var t = $(this);
-		return newSize(t.width(), t.height());
-	};
+		if (!s) {
+			return newSize(t.width(), t.height());
+		}
+		return t.width(s.width).height(s.height);
+	},
 	
 	
 	/* SIZING ****************************************************************/
@@ -79,22 +82,19 @@
 	 * @return Object
 	 */
 	_cloneSize = function (options) {
-		var size = newSize();
-
+		var size = null;
+		
 		if (!!options && options.reference) {
 			// clone the reference
-			size.width = $(options.reference).width();
-			size.height = $(options.reference).height();
+			size = newSize($(options.reference).width(), $(options.reference).height());
 		
-		} else if (!!options.width || !!options.height) {
+		} else if (!!options && (!!options.width || !!options.height)) {
 			// use fallback values
-			size.width = options.width;
-			size.height = options.height;
+			size = newSize(options.width, options.height);
 			
 		} else {
 			// use window as reference
-			size.width = win.width();
-			size.height = win.height();
+			size = newSize(win.width(), win.height());
 		}
 		
 		return size;
@@ -107,23 +107,25 @@
 	 */
 	scaleToFit = function (options) {
 		var size = _cloneSize(options);
-		return $(this).width(size.width).height(size.height);
+		return $(this).size(size);
 	},
+	
+	
 	
 	/**
 	 * Method that tries to abstract the property names from the logic.
 	 * We are dealing with 2 possibles orders (w,h) or (h,w) but since it's
 	 * always the same process, this method makes testing a lot more easier and
-	 * more extendable.
+	 * more extendible.
 	 * @param firstPropertyName
 	 * @param secondPropertyName
 	 * @param firstPropertyValue - the target value
 	 * @param secondPropertyValue - the target value
-	 * @param ratio - the aspect ratio
+	 * @param ratio - the aspect ratio to preserve
 	 * @param comparisonResult - the wanted comparison result ( lessthan:-1, greaterthen:1)
 	 */
 	_processAspectProperty = function (fProp, sProp, fValue, sValue, ratio, compare) {
-		var r = fProp == 'width' ? sdiv(1, ratio) : ratio; 
+		var r = (fProp == 'width') ? sdiv(1, ratio) : ratio; 
 			fVal = fValue,
 			sVal = fValue * r;
 		
@@ -139,188 +141,95 @@
 	},
 	
 	/**
-	 * Fit the required height and resize the width preserving the aspect ratio .
+	 * Fit the required height and resize the width preserving the aspect ratio.
+	 * Compare param defines cropping
+	 * 
+	 * @param options
+	 * @param ratio
+	 * @param comparisonResult - 1 | -1
+	 */
+	_scaleAspect = function (options, ratio, compare) {
+		// assure options
+		options = $.extend({
+						width: null,
+						height: null,
+						reference: null,
+						maxHeight: null,
+						maxWidth: null,
+						minWidth: null,
+						minHeight: null
+					}, options);
+		var 
+		// get prop order
+		firstProp = !!options.preferWidth ? 'width' : 'height',
+		secondProp = !options.preferWidth ? 'height' : 'width',
+					
+		// get our reference size
+		size = _cloneSize(options);
+		
+		// find how to fit it
+		size = _processAspectProperty(firstProp, 
+									  secondProp,
+									  size[firstProp],
+									  size[secondProp],
+									  ratio,
+									  compare);
+		
+		// Check to see if it meets max criteria
+		
+		// Check to see if it meets min criteria
+		
+		return size;
+	},
+	
+	/**
+	 * Fit the required height and resize the width preserving the aspect ratio.
 	 * Assure that all of the target will be inside limits (no cropping)
 	 * 
-	 * 
+	 * @param options
+	 * @param ratio
 	 */
-	_aspectFit = function (options) {
-		
+	_aspectFit = function (options, ratio) {
+		return _scaleAspect(options, ratio, 1);
 	},
 	
 	/**
 	 * Fit the required height and resize the width preserving the aspect ratio .
 	 * Assure that all of the target will fill the limit (cropping may occur)
 	 * 
-	 * 
+	 * @param options
+	 * @param ratio
 	 */
-	_aspectFill = function () {
-		
+	_aspectFill = function (options, ratio) {
+		return _scaleAspect(options, ratio, -1);
 	},
 	
 	/**
 	 * Actual jQuery plugin.
+	 * @param options
 	 * @return jQuery
 	 */
 	scaleAspectFit = function (options) {
-		var firstProp = !!options.preferWidth ? 'width' : 'height',
-			secondProp = !options.preferWidth ? 'height' : 'width';
+		var t = $(this),
+			size = t.originalSize();
 		
-		// process firstpass with prefered option
+		size = _aspectFit(options, size.ratio);
 		
-		// if is does not fit with the first pass
-		// use secondProp
-		
-		// Check to see if it meets max criteria
-		
-		// Check to see if it meets min criteria
+		return t.size(size);
 	},
 	
-	
-	
-	
-	
-	//
-	fitHeight = function (width, height, mw, mh) {
+	/**
+	 * Actual jQuery plugin.
+	 * @param options
+	 * @return jQuery
+	 */
+	scaleAspectFill = function (options) {
+		var t = $(this),
+			size = t.originalSize();
 		
-		// compute w relative to h
-		var ratio = mw / mh,
-			h = height,
-			// compute w according to h
-			w = h * ratio;
+		size = _aspectFill(options, size.ratio);
 		
-		// if the new width is too small, resize usign w
-		if (w < width) {
-			w = width;
-			h = w * (1 / ratio);
-		}
-		
-		// actual resize
-		$(this).width(w).height(h);
-	},
-	
-	// fit the required width and resize the height preserving aspect ratio
-	// stops at max values
-	fitWidthOnly = function (width, height, mw, mh) {
-		
-		// compute w relative to h
-		var ratio = mw / mh,
-		h = 0,
-		w = 0;
-		
-		if (width > mw) {
-			// use max values
-			width = mw;
-		}
-		
-		w = width;
-		h = w * (1 / ratio);
-		
-		// actual resize
-		$(this).width(w).height(h);
-	},
-	
-	// fit the target to maximize space used (no blanks)
-	// while preserving aspect ratio
-	fit = function (width, height, ratio, mw, mh) {
-		
-		// compute w relative to h
-		var h = 0,
-			w = 0;
-		
-		if (mw != null || mh != null) { // use null here as null == undefined
-			if (width > mw) {
-				// use max values
-				width = mw;
-			}
-			if (height > mh) {
-				height = mh;
-			}
-		}
-		
-		if (!ratio) {
-			h = height;
-			w = width;
-			//console.warn('sizing: no ratio found');
-		} else {
-			// try to make it fit with the width
-			w = width;
-			h = w * sdiv(1, ratio);
-			
-			// if the height is too small
-			if (h < height) {
-				h = height;
-				w = ratio * h;
-				//console.info('sizing: height');
-			} else {
-				//console.info('sizing: width');
-			}
-		}
-
-		// actual resize
-		$(this).width(w).height(h);
-	},
-	
-	_innerFit = function (options) {
-		var o = $.extend({},  {
-				width: null,
-				height: null,
-				reference: null,
-				ratio: null,
-				maxHeight: null,
-				maxWidth: null
-			}, options),
-			h = o.height,
-			w = o.width;
-		
-		if (o.maxHeight != null || o.maxWidth != null) { // use null here as null == undefined
-			if (w > o.maxWidth) {
-				// use max values
-				w = o.maxWidth;
-			}
-			if (h > o.maxHeight) {
-				h = o.maxHeight;
-			}
-		}
-		
-		if (!o.ratio) {
-			//console.warn('sizing: no ratio found');
-		} else {
-			
-			// try to make it fit with the width
-			
-			h = w * sdiv(1, o.ratio);
-			
-			// if the height is too big
-			if (h > o.height) {
-				h = o.height;
-				w = o.ratio * h;
-				//console.info('sizing: height');
-			} else {
-				//console.info('sizing: width');
-			}
-		}
-		return newSize(w,h);
-	},
-	
-	innerFit = function (options) {
-		var o = $.extend({},  {
-				width: null,
-				height: null,
-				reference: null,
-				ratio: null,
-				maxHeight: null,
-				maxWidth: null
-			}, options);
-		
-		if(!!o.reference) {
-			o.width = $(o.reference).width();
-			o.height = $(o.reference).height();
-		}
-		
-		var size = _innerFit(o);
-		
-		$(this).width(size.width).height(size.height);
+		return t.size(size);
 	},
 	
 	
@@ -336,33 +245,70 @@
 	 * Centers the image based on the params instead of resizing the image, 
 	 * the image is moved in order to stay centered
 	 * 
-	 * 
+	 * @param options
+	 * @param wrapperSize - size of the wrapper
+	 * @param targetSize - size of the positioned element
+	 * @return Object
 	 */
-	centerCropFit = function (width, height, options) {
-		var t = $(this),
+	_autoPosition = function (options, wrapSize, targetSize) {
+		var pos = {},
 			o = $.extend(o, {
+				position: 'center',
 				allowNegative: true,
 				left:'margin-left',
 				top:'margin-top'
 			}, options),
-			w = t.width(),
-			h = t.height(),
-			left = $.sdiv(width - w, 2),
-			top = $.sdiv(height - h, 2);
+			// diffs
+			dw = wrapSize.width - targetSize.width,
+			dh = wrapSize.height - targetSize.height,
+			// start centered
+			left = $.sdiv(dw, 2),
+			top = $.sdiv(dh, 2);
 		
+		// fix top
+		if (o.position.indexOf('top')) {
+			top = 0;
+		} else if (o.position.indexOf('bottom')) {
+			top = dh;
+		}
+		
+		// fix left
+		if (!!~o.position.indexOf('left')) {
+			left = 0;
+		} else if (!!~o.position.indexOf('right')) {
+			left = dw;
+		}
+		
+		// fix negative values
 		if (!o.allowNegative) {
 			left = left < 0 ? 0 : left;
 			top = top < 0 ? 0 : top;
 		}
 		
-		if (o.left) {
-			t.css(o.left, left);
+		// set left value
+		if (!!o.left) {
+			pos[o.left] = left;
+		}
+		// set top value
+		if (!!o.top) {
+			pos[o.top] = top;
 		}
 		
-		if (o.top) {
-			t.css(o.top, top);
-		}
-		return t;
+		return pos;
+	},
+	
+	/**
+	 * Actual jQuery plugin.
+	 * @param options
+	 * @return jQuery
+	 */
+	autoPosition = function (options) {
+		var t = $(this),
+			s = t.size(),
+			ws = _cloneSize(options),
+			css = _autoPosition(options, ws, s);
+		
+		return t.css(css);
 	},
 	
 	/**
@@ -436,7 +382,7 @@
 	 * Get the current original size
 	 * @return Object
 	 */
-	getOriginalSize = function () {
+	originalSize = function () {
 		var t = $(this).eq(0),
 			size = t.data('original-size');
 		if (!size) {
@@ -444,6 +390,7 @@
 		}
 		return size;
 	},
+	
 	
 	/**
 	 * Delete the current value of the original size
@@ -489,11 +436,11 @@
 		// setting / getting original sizes
 		saveOriginalSize:		function () { return each.call(this, saveOriginalSize, arguments); },
 		clearOriginalSize:		function () { return each.call(this, clearOriginalSize, arguments); },
-		getOriginalSize:		getOriginalSize, // no each for a getter, we want the value !!!
+		originalSize:			originalSize, // no each for a getter, we want the value !!!
 		
 		// Positioning
-		offsetPosition:			function () { return each.call(this, offsetPosition, arguments); },
-		centerCropFit:			function () { return each.call(this, centerCropFit, arguments); }
+		autoPosition:			function () { return each.call(this, autoPosition, arguments); },
+		offsetPosition:			function () { return each.call(this, offsetPosition, arguments); }
 	});
 	
 	$.extend({
@@ -506,19 +453,12 @@
 		// Utils: just the Maths!
 		sizing: {
 			cloneSize: _cloneSize,
+			scaleAspect: _scaleAspect,
 			aspectFit: _aspectFit,
-			aspectFill: _aspectFill 
+			aspectFill: _aspectFill
 		},
 		positioning: {
-			center: null,
-			top: null,
-			right: null,
-			bottom: null,
-			left: null,
-			topleft: null,
-			topright: null,
-			bottomright: null,
-			bottomleft: null
+			autoPosition: _autoPosition
 		}
 	});
 	

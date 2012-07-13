@@ -15,6 +15,8 @@
 	
 	m = Math,
 	
+	WIDTH = 'width',
+	HEIGHT = 'height',
 	ORIGINAL_SIZE = 'original-size',
 	
 	/**
@@ -128,12 +130,12 @@
 	 */
 	_processAspectProperty = function (fProp, sProp, fValue, sValue, ratio, compare) {
 		var ret = {},
-			r = (fProp == 'width') ? sdiv(1, ratio) : ratio,
+			r = (fProp === WIDTH) ? sdiv(1, ratio) : ratio,
 			fVal = fValue,
 			sVal = fValue * r;
 		
-		if (cmp(sVal, sValue) == compare) {
-			fVal = sVal * sdiv(1, r); // inverted
+		if (cmp(sVal, sValue) === compare) {
+			fVal = sValue * sdiv(1, r); // inverted
 			sVal = sValue;
 		}
 		
@@ -165,8 +167,8 @@
 					}, options);
 		var 
 		// get prop order
-		firstProp = !!options.preferWidth ? 'width' : 'height',
-		secondProp = !options.preferWidth ? 'height' : 'width',
+		firstProp = !!options.preferWidth ? WIDTH : HEIGHT,
+		secondProp = !options.preferWidth ? WIDTH : HEIGHT,
 					
 		// get our reference size
 		size = _cloneSize(options);

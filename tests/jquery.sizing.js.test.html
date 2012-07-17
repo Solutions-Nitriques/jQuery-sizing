@@ -153,8 +153,45 @@
 						width: 50,
 						height: 100
 					};
-				
 				deepEqual(actual, expected, '0.5 ratio (1x2) in 100 x 100 -> 50 x 100');
+					
+				options = {
+					width: 200,
+					height: 200
+				};
+				actual = $.sizing.aspectFit(options, 0.5),
+				expected = {
+					width: 100,
+					height: 200
+				};
+				
+				deepEqual(actual, expected, '0.5 ratio (1x2) in 200 x 200 -> 100 x 200');
+				
+				
+				options = {
+					width: 100,
+					height: 200
+				};
+				actual = $.sizing.aspectFit(options, 0.5),
+				expected = {
+					width: 100,
+					height: 200
+				};
+				
+				deepEqual(actual, expected, '0.5 ratio (1x2) in 100 x 200 -> 100 x 200');
+				
+				
+				options = {
+					width: 200,
+					height: 100
+				};
+				actual = $.sizing.aspectFit(options, 0.5),
+				expected = {
+					width: 50,
+					height: 100
+				};
+				
+				deepEqual(actual, expected, '0.5 ratio (1x2) in 200 x 100 -> 50 x 100');
 			});
 			
 			test('_aspectFill - Outer Fit (crop)', function _aspectFillTest () {
@@ -169,6 +206,44 @@
 					};
 				
 				deepEqual(actual, expected, '0.5 ratio (1x2) in 100 x 100 -> 100 x 200');
+				
+				options = {
+					width: 200,
+					height: 200
+				};
+				actual = $.sizing.aspectFill(options, 0.5),
+				expected = {
+					width: 200,
+					height: 400
+				};
+				
+				deepEqual(actual, expected, '0.5 ratio (1x2) in 200 x 200 -> 200 x 400');
+				
+				
+				options = {
+					width: 100,
+					height: 200
+				};
+				actual = $.sizing.aspectFill(options, 0.5),
+				expected = {
+					width: 100,
+					height: 200
+				};
+				
+				deepEqual(actual, expected, '0.5 ratio (1x2) in 100 x 200 -> 100 x 200');
+				
+				
+				options = {
+					width: 200,
+					height: 100
+				};
+				actual = $.sizing.aspectFill(options, 0.5),
+				expected = {
+					width: 200,
+					height: 400
+				};
+				
+				deepEqual(actual, expected, '0.5 ratio (1x2) in 200 x 100 -> 200 x 400');
 			});
 			
 			test('_autoPosition - Position with strings', function _autoPositionTest () {

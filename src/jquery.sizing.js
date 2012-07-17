@@ -17,6 +17,8 @@
 	
 	WIDTH = 'width',
 	HEIGHT = 'height',
+	WIDTH_CAP = 'Width',
+	HEIGHT_CAP = 'Height',
 	ORIGINAL_SIZE = 'original-size',
 	
 	/**
@@ -169,6 +171,8 @@
 		// get prop order
 		firstProp = !!options.preferWidth ? WIDTH : HEIGHT,
 		secondProp = !options.preferWidth ? WIDTH : HEIGHT,
+		firstPropCap = !!options.preferWidth ? WIDTH_CAP : HEIGHT_CAP,
+		secondPropCap = !options.preferWidth ? WIDTH_CAP : HEIGHT_CAP,
 					
 		// get our reference size
 		size = _cloneSize(options);
@@ -182,8 +186,26 @@
 									  compare);
 		
 		// Check to see if it meets max criteria
+		if (size.width > options.maxWidth || size.height > options.maxHeight) {
+			// Redo layout with max values
+			size = _processAspectProperty(firstProp, 
+										  secondProp,
+										  options['max' + firstPropCap],
+										  options['max' + secondPropCap],
+										  ratio,
+										  compare);
+		}
 		
 		// Check to see if it meets min criteria
+		if (size.width < options.minWidth || size.height < options.minHeight) {
+			// Redo layout with max values
+			size = _processAspectProperty(firstProp, 
+										  secondProp,
+										  options['min' + firstPropCap],
+										  options['min' + secondPropCap],
+										  ratio,
+										  compare);
+		}
 		
 		return size;
 	},
@@ -211,6 +233,23 @@
 	},
 	
 	/**
+	 * Utility function that check if 
+	 * 
+	 * @param t - target jQuery Object
+	 * @param options
+	 */
+	_assurePosition = function (t, options) {
+		if (!!options.position) {
+			if (!$.isPlainObject(options.position)) {
+				options.position = {
+					position: options.position
+				};
+			}
+			t.autoPosition(options.position);
+		}
+	},
+	
+	/**
 	 * Actual jQuery plugin.
 	 * @param options
 	 * @return jQuery
@@ -219,9 +258,13 @@
 		var t = $(this),
 			size = t.originalSize();
 		
-		size = _aspectFit(options, size.ratio);
+		// Resize according to aspect
+		t.size(_aspectFit(options, size.ratio));
 		
-		return t.size(size);
+		// Check to see if it needs positioning
+		_assurePosition(t, options);
+		
+		return t;
 	},
 	
 	/**
@@ -233,7 +276,11 @@
 		var t = $(this),
 			size = t.originalSize();
 		
-		size = _aspectFill(options, size.ratio);
+		// Resize according to aspect
+		t.size(_aspectFill(options, size.ratio));
+		
+		// Check to see if it needs positioning
+		_assurePosition(t, options);
 		
 		return t.size(size);
 	},

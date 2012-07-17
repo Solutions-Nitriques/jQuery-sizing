@@ -109,7 +109,7 @@
 	 * Makes the target the same size as the reference
 	 * @return jQuery
 	 */
-	scaleToFit = function (options) {
+	scaleToFill = function (options) {
 		var size = _cloneSize(options);
 		return $(this).size(size);
 	},
@@ -436,8 +436,8 @@
 	$.fn.extend({
 		// Resizing/Scaling algorithm
 		scaleToFill:			function () { return each.call(this, scaleToFill, arguments); },
-		scaleToAspectFit:		function () { return each.call(this, fitHeight, arguments); },
-		scaleToAspectFill:		function () { return each.call(this, fitWidthOnly, arguments); },
+		scaleAspectFit:			function () { return each.call(this, scaleAspectFit, arguments); },
+		scaleAspectFill:		function () { return each.call(this, scaleAspectFill, arguments); },
 		size:					size,
 		
 		// setting / getting original sizes

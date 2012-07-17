@@ -186,7 +186,8 @@
 									  compare);
 		
 		// Check to see if it meets max criteria
-		if (size.width > options.maxWidth || size.height > options.maxHeight) {
+		if ((!!options.maxWidth && size.width > options.maxWidth) || 
+			(options.maxHeight && size.height > options.maxHeight)) {
 			// Redo layout with max values
 			size = _processAspectProperty(firstProp, 
 										  secondProp,
@@ -197,7 +198,8 @@
 		}
 		
 		// Check to see if it meets min criteria
-		if (size.width < options.minWidth || size.height < options.minHeight) {
+		if ((!!options.minWidth && size.width < options.minWidth) || 
+			(!!options.minHeight && size.height < options.minHeight)) {
 			// Redo layout with max values
 			size = _processAspectProperty(firstProp, 
 										  secondProp,

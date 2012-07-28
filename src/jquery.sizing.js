@@ -284,7 +284,7 @@
 		// Check to see if it needs positioning
 		_assurePosition(t, options);
 		
-		return t.size(size);
+		return t;
 	},
 	
 	

@@ -251,13 +251,27 @@
 	 * @param options
 	 */
 	_assurePosition = function (t, options) {
-		if (!!options.position) {
-			if (!$.isPlainObject(options.position)) {
-				options.position = {
+		var pos = options.position;
+		
+		if (!!pos) {
+			// transform value in object
+			if (!$.isPlainObject(pos)) {
+				pos = {
 					position: options.position
 				};
 			}
-			t.autoPosition(options.position);
+			// assure we pass along the main sizing options
+			if (!pos.reference) {
+				pos.reference = options.reference;
+			}
+			if (!pos.width) {
+				pos.width = options.width;
+			}
+			if (!pos.height) {
+				pos.height = options.height;
+			}
+			
+			t.autoPosition(pos);
 		}
 	},
 	

@@ -262,7 +262,7 @@
 	},
 	
 	/**
-	 * Actual Scale Aspect Fit jQuery plugin.
+	 * Scale Aspect Fit jQuery plugin.
 	 * Cropping will never occur, blank spot may appear.
 	 * 
 	 * @param options
@@ -282,7 +282,7 @@
 	},
 	
 	/**
-	 * Actual Scale Aspect Fill jQuery plugin.
+	 * Scale Aspect Fill jQuery plugin.
 	 * Cropping will occur, blank spot will not appear.
 	 * 
 	 * @param options
@@ -361,7 +361,10 @@
 	},
 	
 	/**
-	 * Actual jQuery plugin.
+	 * Auto Position jQuery plugin.
+	 * The target will be position based on the 
+	 * options given.
+	 * 
 	 * @param options
 	 * @return jQuery
 	 */
@@ -375,8 +378,6 @@
 	},
 	
 	/**
-	 * 
-	 *
 	 * This method permits to move some element according to
 	 * a specific number of pixel even if the current CSS
 	 * uses other units (i.e. 100% - 50px)
@@ -429,6 +430,7 @@
 	
 	/**
 	 * Save the current object size for use later on...
+	 * 
 	 * @param @optional returnValue boolean
 	 * @return jQuery | Object
 	 */
@@ -443,6 +445,7 @@
 	
 	/**
 	 * Get the current original size
+	 * 
 	 * @return Object
 	 */
 	originalSize = function () {
@@ -457,6 +460,7 @@
 	
 	/**
 	 * Delete the current value of the original size
+	 * 
 	 * @return jQuery
 	 */
 	clearOriginalSize = function () {
@@ -486,7 +490,6 @@
 		
 		return t;
 	};
-	
 	
 	
 	/* ACTUAL PLUGINS ********************************************************/

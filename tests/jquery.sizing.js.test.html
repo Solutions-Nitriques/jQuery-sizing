@@ -15,14 +15,14 @@
   	</style>
 	
 	<script>
-		(function (doc,co) {
+		(function (w, doc,co) {
 			// http://stackoverflow.com/questions/901115/get-query-string-values-in-javascript
 			var u = {},
 				e,
 		        a = /\+/g,  // Regex for replacing addition symbol with a space
 		        r = /([^&=]+)=?([^&]*)/g,
 		        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
-		        q = window.location.search.substring(1),
+		        q = w.location.search.substring(1),
 				v = '1.7.2';
 
 			while (e = r.exec(q)) {
@@ -35,7 +35,7 @@
 
 			doc.write('<script src="http://ajax.googleapis.com/ajax/libs/jquery/'+v+'/jquery.min.js">' + "<" + '/' + 'script>');
 			co.log('\nLoading jQuery v' + v + '\n');
-		})(window.document, console);
+		})(window, document, console);
 	</script>
 </head>
 <body>

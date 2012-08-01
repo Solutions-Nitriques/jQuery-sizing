@@ -5,23 +5,30 @@
 	<title>jQuery Sizing Adhoc test</title> 
 	
 	<style type="text/css">
-		#apectFit {
-			top:1%;
+		#aspectFit {
+			top:120px;
 			left:1%;
-			width: 40%;
-			height: 35%;
+			width: 45%;
+			height: 55%;
 			position: fixed;
 			background-color: blue;
 			overflow:hidden;
 			border: 1px solid red;
 		}
-		#apectFill {
-			width: 50%;
-			height: 35%;
+		#aspectFill {
+			top:120px;
+			right:1%;
+			width: 45%;
+			height: 55%;
 			position: fixed;
-			background-color: blue;
+			background-color: red;
 			overflow:hidden;
-			border: 1px solid red;
+			border: 1px solid blue;
+		}
+		
+		#aspectFit img,
+		#aspectFill img {
+			
 		}
   	</style>
 	
@@ -50,16 +57,17 @@
 	</script>
 </head>
 <body>
-	<h1>jQuery Sizing</h1>  
+	<h1>jQuery Sizing</h1>
+	<h2>Left, Aspect Fit - Right, Aspect Fill</h2>
 
 	<div id="main">
 		
-		<div id="apectFit">
-			<img src="http://farm9.staticflickr.com/8023/7672717820_f9dd5e7f27_h.jpg" alt="" />
+		<div id="aspectFit">
+			<img src="http://farm9.staticflickr.com/8023/7672717820_f9dd5e7f27_h.jpg" width="1600" height="1283" alt="" />
 		</div>
 		
-		<div id="apectFill">
-			<img src="http://farm9.staticflickr.com/8023/7672717820_f9dd5e7f27_h.jpg" alt="" />
+		<div id="aspectFill">
+			<img src="http://farm9.staticflickr.com/8023/7672717820_f9dd5e7f27_h.jpg" width="1600" height="1283" alt="" />
 		</div>
 	</div>    
 
@@ -72,8 +80,21 @@
 		
 		var 
 		
+		win = $(window),
+		
+		resize = function () {
+			$('#aspectFit>img').scaleAspectFit({
+				reference: '#aspectFit',
+				position: 'topright'
+			});
+			$('#aspectFill>img').scaleAspectFill({
+				reference: '#aspectFill',
+				position: 'topright'
+			});
+		},
+		
 		init = function () {
-			$('#main>img').scaleAspectFit()
+			win.load(resize).resize(resize);
 		};
 		
 		$(init);

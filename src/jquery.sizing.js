@@ -37,6 +37,7 @@
 	/**
 	 * Simple numeric comparison.
 	 * Returns 0 if params are equal (==), 1 if a > b, -1 otherwise
+	 * 
 	 * @param a
 	 * @param b
 	 * @return int
@@ -50,6 +51,11 @@
 	
 	/**
 	 * Factory method to create a size object
+	 * {
+	 *  width:  number,
+	 *  height: number,
+	 *  ratio:  number
+	 * }
 	 * 
 	 * @param @optional width
 	 * @param @optional height
@@ -109,6 +115,7 @@
 	/**
 	 * Actual jQuery plugin.
 	 * Makes the target the same size as the reference
+	 * 
 	 * @return jQuery
 	 */
 	scaleToFill = function (options) {
@@ -122,7 +129,8 @@
 	 * Method that tries to abstract the property names from the logic.
 	 * We are dealing with 2 possibles orders (w,h) or (h,w) but since it's
 	 * always the same process, this method makes testing a lot more easier and
-	 * more extendible.
+	 * more extendable.
+	 * 
 	 * @param firstPropertyName
 	 * @param secondPropertyName
 	 * @param firstPropertyValue - the target value
@@ -235,7 +243,9 @@
 	},
 	
 	/**
-	 * Utility function that check if 
+	 * Check if there is a position object/value
+	 * in the options object. If there is such value,
+	 * the autoPosition plugin is call on the target parameter
 	 * 
 	 * @param t - target jQuery Object
 	 * @param options
@@ -252,7 +262,9 @@
 	},
 	
 	/**
-	 * Actual jQuery plugin.
+	 * Actual Scale Aspect Fit jQuery plugin.
+	 * Cropping will never occur, blank spot may appear.
+	 * 
 	 * @param options
 	 * @return jQuery
 	 */
@@ -270,7 +282,9 @@
 	},
 	
 	/**
-	 * Actual jQuery plugin.
+	 * Actual Scale Aspect Fill jQuery plugin.
+	 * Cropping will occur, blank spot will not appear.
+	 * 
 	 * @param options
 	 * @return jQuery
 	 */
@@ -290,14 +304,8 @@
 	
 	/* POSITIONING ***********************************************************/
 	
-	/*
-	 * Should those method should be moved elsewhere???
-	 * It's not sizing, it's positioning (?!?!)
-	 * But we could couple those two to create something great...
-	 */
-	
 	/** 
-	 * Centers the image based on the params instead of resizing the image, 
+	 * Centers the image based on the parameter instead of resizing the image, 
 	 * the image is moved in order to stay centered
 	 * 
 	 * @param options
@@ -314,11 +322,11 @@
 				top:'margin-top'
 			}, options),
 			// diffs
-			dw = wrapSize.width - targetSize.width,
+			dw = wrapSize.width  - targetSize.width,
 			dh = wrapSize.height - targetSize.height,
 			// start centered
 			left = $.sdiv(dw, 2),
-			top = $.sdiv(dh, 2);
+			top =  $.sdiv(dh, 2);
 		
 		// fix top
 		if (!!~o.position.indexOf('top')) {
@@ -462,6 +470,7 @@
 	/**
 	 * Utility method to facilitate working with jQuery objects
 	 * in all plugins
+	 * 
 	 * @param callback
 	 * @param arguments
 	 * @return jQuery
@@ -469,7 +478,7 @@
 	each = function (callback, args) {
 		var t = $(this);
 			
-		if (!!t && t.length >= 0 && $.isFunction(callback)) {
+		if (!!t && !!t.length && $.isFunction(callback)) {
 			t.each(function eachCallback () {
 				callback.apply(this, args);
 			});

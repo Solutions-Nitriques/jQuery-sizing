@@ -82,7 +82,8 @@
 	/* SIZING ****************************************************************/
 	
 	// Resize content modes
-	// @See: http://developer.apple.com/library/ios/#documentation/uikit/reference/UIView_Class/UIView/UIView.html#//apple_ref/occ/cl/UIView
+	// Uses the same definitions form UIViewContentMode
+	// @See: http://developer.apple.com/library/ios/#documentation/uikit/reference/UIView_Class/UIView/UIView.html
 	
 	/**
 	 * Copies an object size.

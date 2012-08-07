@@ -76,7 +76,7 @@ will "fit". The reference options are defined by three properties that work toge
 passed in the options parameter. The first property is `reference` and its value can either be a CSS selector, a 
 jQuery object or DOMElement. The others propeties are `width` and `height`.
 
-If the `reference` property is defined, than its size is used. If `reference` is not defined, the algorithm
+If the `reference` property is defined, than its size is used and will override height and width properties. If `reference` is not defined, the algorithm
 will revert to `width` and `height`. If none is defined, the size of the `window` will be used as reference size.
 This behavior is encapsulated into the `cloneSize` method.
 	

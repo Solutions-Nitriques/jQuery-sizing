@@ -15,8 +15,11 @@ A good documentation is nice, but hard to maintain. Having the documentation int
 of forcing programmers to maintain it while working on the code. 
 So, reading the code *should* be easy, as there are a lot of comments in it.
 
-Finally, please note that version 2 of this project is a complete rewrite of version 1.
+Please note that version 2 of this project is a complete rewrite of version 1.
 It is **not** backwards compatible with version 1.
+
+Please use [Github's issue tracker](https://github.com/Solutions-Nitriques/jQuery-sizing/issues) 
+to report any anomalies or [our website's](http://www.deuxhuithuit.com) contact form to say hi!.
 
 ## Table of contents
 
@@ -36,13 +39,13 @@ It is **not** backwards compatible with version 1.
 
 ## Usage
 
-For production environnement, please use the 
+For production environment, please use the 
 [minified version](https://github.com/Solutions-Nitriques/jQuery-sizing/blob/master/dist/jquery.sizing.min.js).
 The [source version](https://github.com/Solutions-Nitriques/jQuery-sizing/blob/master/src/jquery.sizing.js)
 is provided for learning, testing, debugging and reviewing.
 
 You can use this bundle via [jQuery plugins](#jquery-plugins) or directly via the [API](#api), 
-for getting the algorithm results. See a list of [all methods below](#jquery-plugins).
+for usign the algorithms results.
 
 Ex.:
 
@@ -58,6 +61,8 @@ or
 
 	// Does not change anything in the DOM and return a size object.
 	$.namespace.method({...}, param1, param2, ...);
+
+See a list of [all methods below](#jquery-plugins).
 
 ### Size Object
 
@@ -77,12 +82,12 @@ This behavior is encapsulated into the `cloneSize` method.
 	
 ### jQuery Plugins
 #### Scale/Resize
-- `$(target).scaleToFill(options)`: Fills the reference breaking the aspect ratio. 
+- `$(target).**scaleToFill**(options)`: Fills the reference breaking the aspect ratio. 
 No blank space nor cropping will occur. Options are:
 	- `reference`
 	- `width`
 	- `height`
-- `$(target).scaleAspectFit(options)`: Fits the reference, preserving the aspect ratio. 
+- `$(target).**scaleAspectFit**(options)`: Fits the reference, preserving the aspect ratio. 
 Blank space may be present without cropping. Options are: 
 	- `reference`
 	- `width`
@@ -92,7 +97,7 @@ Blank space may be present without cropping. Options are:
 	- `minHeight`
 	- `maxWidth`
 	- `maxHeight`
-- `$(target).scaleAspectFill`: Fills the reference, preserving the aspect ratio. Cropping may occur 
+- `$(target).**scaleAspectFill**`: Fills the reference, preserving the aspect ratio. Cropping may occur 
 without blank spaces. Options are:
 	- `reference`
 	- `width`
@@ -104,18 +109,18 @@ without blank spaces. Options are:
 	- `maxHeight`
 	
 #### Size management
-- `$(target).size()`: Gets the size of the target DOM element as a size object. This utility is 
+- `$(target).**size**()`: Gets the size of the target DOM element as a size object. This utility is 
 used internally and is offered for your convenience.
 - `$(target).size(size)`: Sets the size of the target DOM element base on the size parameter 
 `{width:w, height:h}`. This utility is used internally and is offered for your convenience.
 
-- `$(target).saveOriginalSize(retValue)`: Saves the current size of the target into jQuery's data store.
+- `$(target).**saveOriginalSize**(retValue)`: Saves the current size of the target into jQuery's data store.
 	- If `retValue` is true, will return the size object. Returns jQuery object otherwise.
-- `$(target).clearOriginalSize()`: Delete the current value of the originalSize.
-- `$(target).originalSize()`: Gets the last saved or current size (if no saved data exists) of the target.
+- `$(target).**clearOriginalSize**()`: Delete the current value of the originalSize.
+- `$(target).**originalSize**()`: Gets the last saved or current size (if no saved data exists) of the target.
 
 #### Positioning
-- `$(target).autoPosition(options)`: Changes the specified properties in order to position the target 
+- `$(target).**autoPosition**(options)`: Changes the specified properties in order to position the target 
 into the reference.
 	- `reference`
 	- `width`
@@ -124,7 +129,7 @@ into the reference.
 	- `left`
 	- `top`
 	- `allowNegative`
-- `$(target).offsetPosition(options)`: Changes the sepcified properties in order to position the target 
+- `$(target).**offsetPosition**(options)`: Changes the sepcified properties in order to position the target 
 aside the reference, via a configurable offset.
 	- **This method as not yet been fully testing and is provided for testing only.** Please read the 
 code to understand.
@@ -132,23 +137,23 @@ code to understand.
 ### API
 
 #### General
-- `$.sdiv(num,den)`: Safe division, *i.e.* `num/den`. Always return 0 instead of NaN.
-- `$.size()`: Create an null size object, *i.e.* `{width:0, height:0, ratio:0}`
+- `$.**sdiv**(num,den)`: Safe division, *i.e.* `num/den`. Always return 0 instead of NaN.
+- `$.**size**()`: Create an null size object, *i.e.* `{width:0, height:0, ratio:0}`
 
 #### $.sizing
-- `$.sizing.cloneSize(options)`: The method implements the logic behind the reference options. Returns size object.
-- `$.sizing.scaleAspect(options, ratio, compare)`: This method implements the scaling logic. Returns size object.
+- `$.sizing.**cloneSize**(options)`: The method implements the logic behind the reference options. Returns size object.
+- `$.sizing.**scaleAspect**(options, ratio, compare)`: This method implements the scaling logic. Returns size object.
 	- `options`: jQuery plugin options
 	- `ratio`: The aspect ratio to preserve
 	- `compare`: The comparison value. If this value is 1, scaling with fit into the reference. 
 If this value is 1, filling will occur.
-- `$.sizing.aspectFit(options, ratio)`: Really just a wrapper around `scaleAspect` with compare = 1. 
+- `$.sizing.**aspectFit**(options, ratio)`: Really just a wrapper around `scaleAspect` with compare = 1. 
 Returns size object.
-- `$.sizing.aspectFill(options, ratio)`: Really just a wrapper around `scaleAspect` with compare = -1. 
+- `$.sizing.**aspectFill**(options, ratio)`: Really just a wrapper around `scaleAspect` with compare = -1. 
 Returns size object.
 
 #### $.positioning
-- `$.positioning.autoPosition(options, wrapSize, targetSize)`: This method will return the 
+- `$.positioning.**autoPosition**(options, wrapSize, targetSize)`: This method will return the 
 position coordinate need for the wanted positioning options.
 	- `options`: jQuery plugin options
 	- `wrapSize`: the reference size
@@ -157,8 +162,10 @@ position coordinate need for the wanted positioning options.
 ## Build and test your own version
 
 This git repro contains configuration files for use with [grunt](https://github.com/cowboy/grunt)
-so you can simply call `grunt` in your favorite terminal. You will need `node`, `grunt` and `phantomjs` 
-available in your `PATH` in order to run the tests and build your minified/uglyfied version.
+so you can simply call `grunt` in the project folder of your favorite terminal.
+You will need `node`, `grunt` and `phantomjs` available in your `PATH` in order to run the 
+tests and build your minified/uglyfied version. If you already have node you can install the
+dependancies via `npm install`.
 
 ## Copyrights
 
@@ -169,9 +176,9 @@ See [LICENSE.txt](https://github.com/Solutions-Nitriques/jQuery-sizing/blob/mast
 
 ### Change Log
 
-- **2.0.0 - 2012-08-06**       
+- **2.0.0 - 2012-08-07**       
   Refactored the project in order to reuse the vocabulary defined by Apple     
-  Extract the oneLiner method: It now in a [separate project](https://github.com/DeuxHuitHuit/jQuery-one-liner)     
+  Extract the oneLiner method: It's now in a [separate project](https://github.com/DeuxHuitHuit/jQuery-one-liner)     
   More code reuse      
   More testability     
   More maintainability

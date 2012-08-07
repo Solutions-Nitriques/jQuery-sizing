@@ -2,8 +2,7 @@
 
 Version: 2.0.0 
 
-#### Collection of functions that performs specific sizing operations such as making element the same size 
-of the reference or resizing according to a certain ratio and algorithm. ####
+#### Collection of functions that performs specific sizing operations such as making element the same size of the reference or resizing according to a certain ratio and algorithm.
 
 The vocabulary used in this project is the same as defined by Apple by its 
 [UIViewContentMode](http://developer.apple.com/library/ios/#documentation/uikit/reference/UIView_Class/UIView/UIView.html) 
@@ -42,8 +41,8 @@ For production environnement, please use the
 The [source version](https://github.com/Solutions-Nitriques/jQuery-sizing/blob/master/src/jquery.sizing.js)
 is provided for learning, testing, debugging and reviewing.
 
-You can use this bundle via jQuery plugins or directly via the API, for getting the algorithm results.
-See a list of all methods below.
+You can use this bundle via [jQuery plugins](#jquery-plugins) or directly via the [API](#api), 
+for getting the algorithm results. See a list of [all methods below](#jquery-plugins).
 
 Ex.:
 
@@ -77,8 +76,7 @@ will revert to `width` and `height`. If none is defined, the size of the `window
 This behavior is encapsulated into the `cloneSize` method.
 	
 ### jQuery Plugins
-	
-- #### Scale/Resize
+#### Scale/Resize
 - `$(target).scaleToFill(options)`: Fills the reference breaking the aspect ratio. 
 No blank space nor cropping will occur. Options are:
 	- `reference`
@@ -105,7 +103,7 @@ without blank spaces. Options are:
 	- `maxWidth`
 	- `maxHeight`
 	
-- #### Size management
+#### Size management
 - `$(target).size()`: Gets the size of the target DOM element as a size object. This utility is 
 used internally and is offered for your convenience.
 - `$(target).size(size)`: Sets the size of the target DOM element base on the size parameter 
@@ -116,7 +114,7 @@ used internally and is offered for your convenience.
 - `$(target).clearOriginalSize()`: Delete the current value of the originalSize.
 - `$(target).originalSize()`: Gets the last saved or current size (if no saved data exists) of the target.
 
-- #### Positioning
+#### Positioning
 - `$(target).autoPosition(options)`: Changes the specified properties in order to position the target 
 into the reference.
 	- `reference`
@@ -133,9 +131,11 @@ code to understand.
 	
 ### API
 
+#### General
 - `$.sdiv(num,den)`: Safe division, *i.e.* `num/den`. Always return 0 instead of NaN.
 - `$.size()`: Create an null size object, *i.e.* `{width:0, height:0, ratio:0}`
 
+#### $.sizing
 - `$.sizing.cloneSize(options)`: The method implements the logic behind the reference options. Returns size object.
 - `$.sizing.scaleAspect(options, ratio, compare)`: This method implements the scaling logic. Returns size object.
 	- `options`: jQuery plugin options
@@ -147,17 +147,18 @@ Returns size object.
 - `$.sizing.aspectFill(options, ratio)`: Really just a wrapper around `scaleAspect` with compare = -1. 
 Returns size object.
 
+#### $.positioning
 - `$.positioning.autoPosition(options, wrapSize, targetSize)`: This method will return the 
 position coordinate need for the wanted positioning options.
 	- `options`: jQuery plugin options
 	- `wrapSize`: the reference size
 	- `targetSize`: the target (positioned) size
 
-## Build your own version
+## Build and test your own version
 
-This git repro contains a configuration for use with [grunt](https://github.com/cowboy/grunt)
+This git repro contains configuration files for use with [grunt](https://github.com/cowboy/grunt)
 so you can simply call `grunt` in your favorite terminal. You will need `node`, `grunt` and `phantomjs` 
-available in your `PATH` in order to run the tests and build your minified version.
+available in your `PATH` in order to run the tests and build your minified/uglyfied version.
 
 ## Copyrights
 

@@ -138,7 +138,7 @@ code to understand.
 
 #### General
 - `$.sdiv(num,den)`: Safe division, *i.e.* `num/den`. Always return 0 instead of NaN.
-- `$.size()`: Create an null size object, *i.e.* `{width:0, height:0, ratio:0}`
+- `$.size()`: Create a null size object, *i.e.* `{width:0, height:0, ratio:0}`
 
 #### $.sizing
 - `$.sizing.cloneSize(options)`: The method implements the logic behind the reference options. Returns size object.

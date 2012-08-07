@@ -2,13 +2,13 @@
 
 Version: 2.0.0 
 
-#### Collection of function that performs specific sizing such as making the same size or resizing according to a certain ratio
+#### Collection of functions that performs specific sizing operations such as making element the same size of the reference or resizing according to a certain ratio and algorithm.
 
 The vocabulary used in this project is the same as defined by Apple by its 
 [UIViewContentMode](http://developer.apple.com/library/ios/#documentation/uikit/reference/UIView_Class/UIView/UIView.html) enumeration.
-Following the same principle, this bundle offers methods such as `scaleToFill`, `scaleAspectFit` and `scaleAspectFill`.
-Those methods accepts a position parameter in order to offer the positioning abilities of UIViewContentMode.
-This behavior can also be acheived via it's own implementation, *i.e.* with the `autoPosition` method.
+Following this principle, this bundle offers methods such as `scaleToFill`, `scaleAspectFit` and `scaleAspectFill`.
+Those methods accepts a `position` option in order to offer the positioning abilities of UIViewContentMode.
+This behavior can also be achieved via it's own implementation, *i.e.* with the `autoPosition` method.
 
 A good documentation is nice, but hard to maintain. Having the documentation into the code is a way
 of forcing programmers to maintain it while working on it. 
@@ -32,6 +32,10 @@ Finally, since version 2 of this project is a complete rewrite of version 1 so i
 - jQuery 1.4+
 
 ## Usage
+
+For production environnement, please use the [minified version](https://github.com/Solutions-Nitriques/jQuery-sizing/blob/master/dist/jquery.sizing.min.js).
+The [source version](https://github.com/Solutions-Nitriques/jQuery-sizing/blob/master/src/jquery.sizing.js)
+is provided for learning, testing, debugging and reviewing.
 
 You can use all of those methods as jQuery plugins or directly for getting the results.
 See a list of all methods below. Ex.:

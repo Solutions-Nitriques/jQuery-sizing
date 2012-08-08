@@ -2,31 +2,28 @@
 
 Version: 2.0.0 
 
-#### Collection of functions that performs specific sizing operations such as making element the same size of the reference or resizing according to a certain ratio and algorithm.
-
-The vocabulary used in this project is the same as defined by Apple by its 
-[UIViewContentMode](http://developer.apple.com/library/ios/#documentation/uikit/reference/UIView_Class/UIView/UIView.html) 
-enumeration. Following this principle, this bundle offers methods such as `scaleToFill`, `scaleAspectFit` 
-and `scaleAspectFill`. Those methods accepts a `position` option in order to offer the positioning abilities 
-of UIViewContentMode. This behavior can also be achieved via it's own implementation, *i.e.* with 
-the `autoPosition` method.
+# What is it exactly ?
+This project is a collection of functions that performs specific sizing and positioning operations,
+such as making element the same size of another reference, resizing according to a certain ratio and algorithms,
+position an element in a container, etc.
 
 A good documentation is nice, but hard to maintain. Having the documentation into the code is a way
-of forcing programmers to maintain it while working on the code. 
-So, reading the code *should* be easy, as there are a lot of comments in it.
+of forcing programmers to maintain it while working on it. 
+So, reading the code *should* be easy, as there are lot of comments in it.
 
-Please note that version 2 of this project is a complete rewrite of version 1.
+Note that version 2 of this project is a complete rewrite of version 1.
 It is **not** backwards compatible with version 1.
 
 Please use [Github's issue tracker](https://github.com/Solutions-Nitriques/jQuery-sizing/issues) 
-to report any anomalies or [our website's](http://www.deuxhuithuit.com) contact form to say hi!
+to report any anomalies or [our website's](http://www.deuxhuithuit.com/) contact form to say hi!
 
 ## Table of contents
 
 - [Requirements](#requirements)
-- [Usage](#usage)
+- [Definitions](#definitions)
 	- [Size object](#size-object)
 	- [Reference options](#reference-options)
+- [Usage](#usage)
 	- [jQuery plugins](#jquery-plugins)
 	- [API](#api)
 - [Build your own version](#build-your-own-version)
@@ -36,6 +33,33 @@ to report any anomalies or [our website's](http://www.deuxhuithuit.com) contact 
 ## Requirements
 
 - [jQuery 1.4+](http://jquery.com/)
+
+## Definitions
+
+The vocabulary used in this project is the same as defined by Apple by its 
+[UIViewContentMode](http://developer.apple.com/library/ios/#documentation/uikit/reference/UIView_Class/UIView/UIView.html) 
+enumeration. Following this nomencalture, this bundle offers methods such as `scaleToFill`, `scaleAspectFit` 
+and `scaleAspectFill`. Those methods accepts a `position` option parameter in order to achieve the positioning abilities 
+of `UIViewContentMode`. This behavior can also be achieved via it's own implementation, *i.e.* with 
+the `autoPosition` method.
+
+### Size Object
+
+Along this file, the term "size object" is used. The size object is a plain javascript object
+that contains three properties: width, height, ratio. The ratio is calculated as width divided by height.
+
+### Reference Options
+
+Along this file, the term "reference options" is used to name the reference size, the size in which the target
+will "fit". The reference options are defined by three properties that work together,
+passed in the options parameter. The first property is `reference` and its value can either be a CSS selector, a 
+jQuery object or DOMElement. The others propeties are `width` and `height`. Normally, those properties should
+reflects the target's container, but it does not have to be.
+
+If the `reference` property is defined, than its size is used. If `reference` is not defined, the algorithm
+will revert to `width` and `height` properties. If none is defined, the size of the `window` will be used as reference.
+This behavior is encapsulated into the `cloneSize` method. Beware that specifying all properties is not usefull and
+the `reference` property will always override `height` and `width` properties.
 
 ## Usage
 
@@ -49,7 +73,8 @@ for usign the algorithms results.
 
 Ex.:
 
-	// Modifies the targeted node and returns the jQuery object.
+	// jQuery plugin
+	// Modifies the targeted node and returns the target jQuery object.
 	// N.B. options parameter is always ommitable since all 
 	// plugins have default values.
 	// N.B.2. When working with images, it is always better
@@ -59,39 +84,24 @@ Ex.:
 
 or
 
+	// API
 	// Does not change anything in the DOM and return a size object.
 	$.namespace.method({...}, param1, param2, ...);
 
 See a list of [all methods below](#jquery-plugins).
-
-### Size Object
-
-Along this file, the term "size object" is used. The size object is a plain javascript object
-that contains three properties: width, height, ratio. The ratio is calculated as width divided by height.
-
-### Reference Options
-
-Along this file, the term "reference options" is used to name the reference size, the size in which the target
-will "fit". The reference options are defined by three properties that work together,
-passed in the options parameter. The first property is `reference` and its value can either be a CSS selector, a 
-jQuery object or DOMElement. The others propeties are `width` and `height`.
-
-If the `reference` property is defined, than its size is used and will override height and width properties. If `reference` is not defined, the algorithm
-will revert to `width` and `height`. If none is defined, the size of the `window` will be used as reference size.
-This behavior is encapsulated into the `cloneSize` method.
 	
 ### jQuery Plugins
 #### Scale/Resize
 - `$(target).scaleToFill(options)`: Fills the reference breaking the aspect ratio. 
 No blank space nor cropping will occur. Options are:
-	- `reference`
-	- `width`
-	- `height`
+	- `reference`: CSSSelector, DOMElement, jQuery object
+	- `width`: the target with. Ignored if reference is set.
+	- `height`: the target height. Ignored if reference is set.
 - `$(target).scaleAspectFit(options)`: Fits the reference, preserving the aspect ratio. 
 Blank space may be present without cropping. Options are: 
-	- `reference`
-	- `width`
-	- `height`
+	- `reference`: CSSSelector, DOMElement, jQuery object
+	- `width`: the target with. Ignored if reference is set.
+	- `height`: the target height. Ignored if reference is set.
 	- `position`
 	- `minWidth`
 	- `minHeight`
@@ -99,9 +109,9 @@ Blank space may be present without cropping. Options are:
 	- `maxHeight`
 - `$(target).scaleAspectFill`: Fills the reference, preserving the aspect ratio. Cropping may occur 
 without blank spaces. Options are:
-	- `reference`
-	- `width`
-	- `height`
+	- `reference`: CSSSelector, DOMElement, jQuery object
+	- `width`: the target with. Ignored if reference is set.
+	- `height`: the target height. Ignored if reference is set.
 	- `position`
 	- `minWidth`
 	- `minHeight`

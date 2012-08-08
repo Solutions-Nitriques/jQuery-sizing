@@ -1,0 +1,3 @@
+[submodule "sizing"]
+	path = sizing
+	url = git@github.com:Solutions-Nitriques/jQuery-sizing.git

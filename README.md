@@ -1,4 +1,4 @@
-﻿# jQuery sizing [![Build Status](https://secure.travis-ci.org/Solutions-Nitriques/jQuery-sizing.png?branch=dev)](http://travis-ci.org/Solutions-Nitriques/jQuery-sizing)
+﻿# jQuery sizing [![Build Status](https://secure.travis-ci.org/Solutions-Nitriques/jQuery-sizing.png?branch=master)](http://travis-ci.org/Solutions-Nitriques/jQuery-sizing)
 
 Version: 2.0.0 
 

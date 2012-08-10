@@ -102,21 +102,23 @@ Blank space may be present without cropping. Options are:
 	- `reference`: CSSSelector, DOMElement, jQuery object
 	- `width`: the target with. Ignored if reference is set.
 	- `height`: the target height. Ignored if reference is set.
-	- `position`
-	- `minWidth`
-	- `minHeight`
-	- `maxWidth`
-	- `maxHeight`
+	- `position`: the position into the reference size. Can be object or string. See the autoPosition
+	for all options.
+	- `maxWidth`: the maximum width to scale to. May be smaller if minHeight is reached.
+	- `maxHeight`: the maximum height to scale to. May be smaller if minWidth is reached.
+	- `minWidth`: the minimum width to scale to. May be bigger if minHeight is reached.
+	- `minHeight`: the minimum height to scale to. May be bigger if minWidth is reached.
 - `$(target).scaleAspectFill`: Fills the reference, preserving the aspect ratio. Cropping may occur 
 without blank spaces. Options are:
 	- `reference`: CSSSelector, DOMElement, jQuery object
 	- `width`: the target with. Ignored if reference is set.
 	- `height`: the target height. Ignored if reference is set.
-	- `position`
-	- `minWidth`
-	- `minHeight`
-	- `maxWidth`
-	- `maxHeight`
+	- `position`: the position into the reference size. Can be object or string. See the autoPosition
+	for all options.
+	- `maxWidth`: the maximum width to scale to. May be smaller if minHeight is reached.
+	- `maxHeight`: the maximum height to scale to. May be smaller if minWidth is reached.
+	- `minWidth`: the minimum width to scale to. May be bigger if minHeight is reached.
+	- `minHeight`: the minimum height to scale to. May be bigger if minWidth is reached.
 	
 #### Size management
 - `$(target).size()`: Gets the size of the target DOM element as a size object. This utility is 
@@ -132,13 +134,16 @@ used internally and is offered for your convenience.
 #### Positioning
 - `$(target).autoPosition(options)`: Changes the specified properties in order to position the target 
 into the reference.
-	- `reference`
-	- `width`
-	- `height`
-	- `position`
-	- `left`
-	- `top`
-	- `allowNegative`
+	- `reference`: CSSSelector, DOMElement, jQuery object
+	- `width`: the target with. Ignored if reference is set.
+	- `height`: the target height. Ignored if reference is set.
+	- `position`: the actual position. Values are 'top', 'right', 'bottom', 'left' and you
+	can	join them in any fashion such as 'top-right' or 'bottom|left'. Seperator character is optional.
+	- `left`: the left porperty to change. Should be 'left' or 'margin-left' most of the time.
+	Defaults to 'margin-left'.
+	- `top`: the top porperty to change. Should be 'top' or 'margin-top' most of the time.
+	Defaults to 'margin-top'.
+	- `allowNegative`: Prevents the positioning from getting into negative values. Default to true.
 - `$(target).offsetPosition(options)`: Changes the sepcified properties in order to position the target 
 aside the reference, via a configurable offset.
 	- **This method as not yet been fully testing and is provided for testing only.** Please read the 
@@ -158,9 +163,9 @@ code to understand.
 	- `compare`: The comparison value. If this value is 1, scaling with fit into the reference. 
 If this value is 1, filling will occur.
 - `$.sizing.aspectFit(options, ratio)`: Really just a wrapper around `scaleAspect` with compare = 1. 
-Returns size object.
+	Returns size object.
 - `$.sizing.aspectFill(options, ratio)`: Really just a wrapper around `scaleAspect` with compare = -1. 
-Returns size object.
+	Returns size object.
 
 #### $.positioning
 - `$.positioning.autoPosition(options, wrapSize, targetSize)`: This method will return the 

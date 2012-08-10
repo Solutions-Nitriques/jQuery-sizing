@@ -2,7 +2,7 @@
 
 Version: 2.0.0 
 
-# What is it exactly ?
+## What is it exactly ?
 This project is a collection of functions that performs specific sizing and positioning operations,
 such as making element the same size of another reference, resizing according to a certain ratio and algorithms,
 position an element in a container, etc.
@@ -185,13 +185,13 @@ dependancies via `npm install`.
 ## Copyrights
 
 See [LICENSE.txt](https://github.com/Solutions-Nitriques/jQuery-sizing/blob/master/LICENSE.txt)      
-<http://www.deuxhuithuit.com/>
+[Deux Huit Huit](http://www.deuxhuithuit.com/)
 
 *Voila !*
 
 ### Change Log
 
-- **2.0.0 - 2012-08-07**       
+- **2.0.0 - 2012-08-09**       
   Refactored the project in order to reuse the vocabulary defined by Apple     
   Extract the oneLiner method: It's now in a [separate project](https://github.com/DeuxHuitHuit/jQuery-one-liner)     
   More code reuse      

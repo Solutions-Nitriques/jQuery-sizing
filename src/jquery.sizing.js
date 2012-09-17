@@ -252,7 +252,7 @@
 	 * @param options
 	 */
 	_assurePosition = function (t, options) {
-		var pos = options.position;
+		var pos = options && options.position;
 		
 		if (!!pos) {
 			// transform value in object

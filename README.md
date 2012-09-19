@@ -123,6 +123,8 @@ without blank spaces. Options are:
 	- `maxHeight`: the maximum height to scale to. May be smaller if minWidth is reached.
 	- `minWidth`: the minimum width to scale to. May be bigger if minHeight is reached.
 	- `minHeight`: the minimum height to scale to. May be bigger if minWidth is reached.
+	- `preferWidth`: starts size checks with width, then height, when true. Will check height, then width
+	if set to false. Defaults to true.
 	
 #### Size management
 - `$(target).size()`: Gets the size of the target DOM element as a size object. This utility is 

@@ -73,21 +73,23 @@ for usign the algorithms results.
 
 Ex.:
 
-```	// jQuery plugin
-	// Modifies the targeted node and returns the target jQuery object.
-	// N.B. options parameter is always ommitable since all 
-	// plugins have default values.
-	// N.B.2. When working with images, it is always better
-	// to hook up the plugin in the load event of the window or
-	// image objects.
-	$('#selector').method({...});
+``` javascript
+// jQuery plugin
+// Modifies the targeted node and returns the target jQuery object.
+// N.B. options parameter is always ommitable since all 
+// plugins have default values.
+// N.B.2. When working with images, it is always better
+// to hook up the plugin in the load event of the window or
+// image objects.
+$('#selector').method({...});
 ```
 
 or
 
-```	// API
-	// Does not change anything in the DOM and return a size object.
-	$.namespace.method({...}, param1, param2, ...);
+``` javascript
+// API
+// Does not change anything in the DOM and return a size object.
+$.namespace.method({...}, param1, param2, ...);
 ```
 
 See a list of [all methods below](#jquery-plugins).

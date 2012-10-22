@@ -146,8 +146,8 @@ into the reference.
 	- `reference`: CSSSelector, DOMElement, jQuery object
 	- `width`: the target with. Ignored if reference is set.
 	- `height`: the target height. Ignored if reference is set.
-	- `position`: the actual position. Values are 'top', 'right', 'bottom', 'left' and you
-	can	join them in any fashion such as 'top-right' or 'bottom|left'. Seperator character is optional.
+	- `position`: the actual position. Values are 'center', 'top', 'right', 'bottom', 'left' and you
+	can	join them (execpt 'center') in any fashion such as 'top-right' or 'bottom|left'. Seperator character is optional.
 	- `left`: the left porperty to change. Should be 'left' or 'margin-left' most of the time.
 	Defaults to 'margin-left'.
 	- `top`: the top porperty to change. Should be 'top' or 'margin-top' most of the time.

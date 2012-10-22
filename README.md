@@ -15,7 +15,7 @@ Note that version 2 of this project is a complete rewrite of version 1.
 It is **not** backwards compatible with version 1.
 
 Please use [Github's issue tracker](https://github.com/Solutions-Nitriques/jQuery-sizing/issues) 
-to report any anomalies or [our website's](http://www.deuxhuithuit.com/) contact form to say hi!
+to report any anomalies or [our website's](http://www.deuxhuithuit.com/?ref=jquery-sizing-github) contact form to say hi!
 
 ## Table of contents
 
@@ -73,20 +73,24 @@ for usign the algorithms results.
 
 Ex.:
 
-	// jQuery plugin
-	// Modifies the targeted node and returns the target jQuery object.
-	// N.B. options parameter is always ommitable since all 
-	// plugins have default values.
-	// N.B.2. When working with images, it is always better
-	// to hook up the plugin in the load event of the window or
-	// image objects.
-	$('#selector').method({...});
+``` javascript
+// jQuery plugin
+// Modifies the targeted node and returns the target jQuery object.
+// N.B. options parameter is always ommitable since all 
+// plugins have default values.
+// N.B.2. When working with images, it is always better
+// to hook up the plugin in the load event of the window or
+// image objects.
+$('#selector').method({...});
+```
 
 or
 
-	// API
-	// Does not change anything in the DOM and return a size object.
-	$.namespace.method({...}, param1, param2, ...);
+``` javascript
+// API
+// Does not change anything in the DOM and return a size object.
+$.namespace.method({...}, param1, param2, ...);
+```
 
 See a list of [all methods below](#jquery-plugins).
 	
@@ -102,29 +106,34 @@ Blank space may be present without cropping. Options are:
 	- `reference`: CSSSelector, DOMElement, jQuery object
 	- `width`: the target with. Ignored if reference is set.
 	- `height`: the target height. Ignored if reference is set.
-	- `position`: the position into the reference size. Can be object or string. See the autoPosition
+	- `position`: the position into the reference size. Can be object or string. See the autoPosition plugin
 	for all options.
 	- `maxWidth`: the maximum width to scale to. May be smaller if minHeight is reached.
 	- `maxHeight`: the maximum height to scale to. May be smaller if minWidth is reached.
 	- `minWidth`: the minimum width to scale to. May be bigger if minHeight is reached.
 	- `minHeight`: the minimum height to scale to. May be bigger if minWidth is reached.
+	- `preferWidth`: starts size checks with width, then height, when true. Will check height, then width
+	if set to false. Defaults to true.
 - `$(target).scaleAspectFill`: Fills the reference, preserving the aspect ratio. Cropping may occur 
 without blank spaces. Options are:
 	- `reference`: CSSSelector, DOMElement, jQuery object
 	- `width`: the target with. Ignored if reference is set.
 	- `height`: the target height. Ignored if reference is set.
-	- `position`: the position into the reference size. Can be object or string. See the autoPosition
+	- `position`: the position into the reference size. Can be object or string. See the autoPosition plugin
 	for all options.
 	- `maxWidth`: the maximum width to scale to. May be smaller if minHeight is reached.
 	- `maxHeight`: the maximum height to scale to. May be smaller if minWidth is reached.
 	- `minWidth`: the minimum width to scale to. May be bigger if minHeight is reached.
 	- `minHeight`: the minimum height to scale to. May be bigger if minWidth is reached.
+	- `preferWidth`: starts size checks with width, then height, when true. Will check height, then width
+	if set to false. Defaults to true.
 	
 #### Size management
 - `$(target).size()`: Gets the size of the target DOM element as a size object. This utility is 
-used internally and is offered for your convenience.
+used internally and is offered for your convenience. BEWARE: This deletes jQuery's size() method.
 - `$(target).size(size)`: Sets the size of the target DOM element base on the size parameter 
 `{width:w, height:h}`. This utility is used internally and is offered for your convenience.
+BEWARE: This deletes jQuery's size() method.
 
 - `$(target).saveOriginalSize(retValue)`: Saves the current size of the target into jQuery's data store.
 	- If `retValue` is true, will return the size object. Returns jQuery object otherwise.
@@ -137,13 +146,13 @@ into the reference.
 	- `reference`: CSSSelector, DOMElement, jQuery object
 	- `width`: the target with. Ignored if reference is set.
 	- `height`: the target height. Ignored if reference is set.
-	- `position`: the actual position. Values are 'top', 'right', 'bottom', 'left' and you
-	can	join them in any fashion such as 'top-right' or 'bottom|left'. Seperator character is optional.
+	- `position`: the actual position. Values are 'center', 'top', 'right', 'bottom', 'left' and you
+	can	join them (execpt 'center') in any fashion such as 'top-right' or 'bottom|left'. Seperator character is optional.
 	- `left`: the left porperty to change. Should be 'left' or 'margin-left' most of the time.
 	Defaults to 'margin-left'.
 	- `top`: the top porperty to change. Should be 'top' or 'margin-top' most of the time.
 	Defaults to 'margin-top'.
-	- `allowNegative`: Prevents the positioning from getting into negative values. Default to true.
+	- `allowNegative`: Prevents the positioning from getting into negative values. Defaults to true.
 - `$(target).offsetPosition(options)`: Changes the sepcified properties in order to position the target 
 aside the reference, via a configurable offset.
 	- **This method as not yet been fully testing and is provided for testing only.** Please read the 

@@ -21,6 +21,8 @@
       "url": "https://github.com/Solutions-Nitriques/jQuery-sizing/blob/master/LICENSE.txt"
     }
   ],
-  "dependencies": { },
-  "keywords": ['size','sizing','resize','aspect ratio','scale']
+  "dependencies": {
+     "jquery": ">=1.4"
+  },
+  "keywords": ["size","sizing","resize","aspect-ratio","scale"]
 }

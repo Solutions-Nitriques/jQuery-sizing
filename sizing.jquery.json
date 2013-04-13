@@ -1,0 +1,26 @@
+{
+  "name": "jquery.sizing",
+  "title": "jQuery Sizing",
+  "description": "Bundle of sizing functions, exposed as a jQuery plugin",
+  "version": "2.0.0",
+  "homepage": "https://github.com/Solutions-Nitriques/jQuery-sizing",
+  "author": {
+    "name": "Deux Huit Huit",
+    "url": "http://www.deuxhuithuit.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Solutions-Nitriques/jQuery-sizing.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Solutions-Nitriques/jQuery-sizing/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/Solutions-Nitriques/jQuery-sizing/blob/master/LICENSE.txt"
+    }
+  ],
+  "dependencies": { },
+  "keywords": ['size','sizing','resize','aspect ratio','scale']
+}

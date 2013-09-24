@@ -147,7 +147,7 @@ into the reference.
 	- `width`: the target with. Ignored if reference is set.
 	- `height`: the target height. Ignored if reference is set.
 	- `position`: the actual position. Values are 'center', 'top', 'right', 'bottom', 'left' and you
-	can	join them (execpt 'center') in any fashion such as 'top-right' or 'bottom|left'. Seperator character is optional.
+	can	join them (excepted 'center') in any fashion such as 'top-right' or 'bottom|left'. Seperator character is optional.
 	You can also specify position usign numbers, 1 being top-left corner, 5 the center and 9 the bottom-right corner.
 	- `left`: the left porperty to change. Should be 'left' or 'margin-left' most of the time.
 	Defaults to 'margin-left'.

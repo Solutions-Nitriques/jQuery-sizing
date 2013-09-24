@@ -19,11 +19,11 @@
 			// http://stackoverflow.com/questions/901115/get-query-string-values-in-javascript
 			var u = {},
 				e,
-		        a = /\+/g,  // Regex for replacing addition symbol with a space
-		        r = /([^&=]+)=?([^&]*)/g,
-		        d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
-		        q = w.location.search.substring(1),
-				v = '1.7.2';
+				a = /\+/g,  // Regex for replacing addition symbol with a space
+				r = /([^&=]+)=?([^&]*)/g,
+				d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+				q = w.location.search.substring(1),
+				v = '2.0.3';
 
 			while (e = r.exec(q)) {
 				u[d(e[1])] = d(e[2]);
@@ -40,9 +40,9 @@
 </head>
 <body>
 	<h1 id="qunit-header">jQuery Sizing</h1>  
-    <h2 id="qunit-banner"></h2>  
-    <h2 id="qunit-userAgent"></h2>  
-    <ol id="qunit-tests"></ol>
+	<h2 id="qunit-banner"></h2>  
+	<h2 id="qunit-userAgent"></h2>  
+	<ol id="qunit-tests"></ol>
 	
 	<div id="original-size">original-size</div>
 	<div id="size">size</div>
@@ -318,6 +318,20 @@
 				expected = {left:0,top:0};
 				actual = $.positioning.autoPosition(options, wrapSize, targetSize);
 				deepEqual(actual, expected, 'center			100 x 100 in 50 x 100 - no negative');
+			});
+			
+			test('_convertPosition - Position in integer convertion into string', function _convertPositionTest () {
+				equal($.positioning.convertPosition(0), null, '0 == null');
+				equal($.positioning.convertPosition(1), 'top-left', '1 == top-left');
+				equal($.positioning.convertPosition(2), 'top', '2 == top');
+				equal($.positioning.convertPosition(3), 'top-right', '3 == top-right');
+				equal($.positioning.convertPosition(4), 'left', '4 == left');
+				equal($.positioning.convertPosition(5), 'center', '5 == center');
+				equal($.positioning.convertPosition(6), 'right', '6 == right');
+				equal($.positioning.convertPosition(7), 'bottom-left', '7 == bottom-left');
+				equal($.positioning.convertPosition(8), 'bottom', '8 == bottom');
+				equal($.positioning.convertPosition(9), 'bottom-right', '9 == bottom-right');
+				equal($.positioning.convertPosition('top-left'), 'top-left', 'string is still string');
 			});
 			
 		}; // end run tests

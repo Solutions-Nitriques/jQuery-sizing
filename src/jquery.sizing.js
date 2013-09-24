@@ -1,13 +1,17 @@
 /*
- *  Sizing v2.0 - jQuery plugin
+ *  Sizing v2.0.1 - jQuery plugin
  *
- *  Copyright (c) 2012 Deux Huit Huit (http://www.deuxhuithuit.com/)
+ *  Copyright (c) 2012-2013 Deux Huit Huit (http://www.deuxhuithuit.com/)
  *  Copyright (c) 2011 Solutions Nitriques (http://www.nitriques.com/open-source/)
- *  Licensed under the MIT (https://raw.github.com/Solutions-Nitriques/jQuery-sizing/blob/master/LICENSE.txt)
+ *  Licensed under the MIT (http://deuxhuithuit.mit-license.org)
  */
 (function ($, undefined) {
 	
 	"use strict";
+	
+	if (!$.isNumeric) {
+		$.isNumeric = function (i) { return !$.isNaN(i); };
+	}
 	
 	var
 	
@@ -319,6 +323,33 @@
 	
 	/* POSITIONING ***********************************************************/
 	
+	/**
+	 * Converts positioning given in number, where the area is divided into 9 pieces.
+	 * The 9 pieces are seperated as follow:
+	 * |1|2|3|
+	 * |4|5|6|
+	 * |7|8|9|
+	 */
+	_convertPosition = function (position) {
+		var p = position;
+		if ($.isNumeric(p)) {
+			p = parseInt(p, 10);
+			switch (p) {
+				case 1: p = 'top-left'; break;
+				case 2: p = 'top'; break;
+				case 3: p = 'top-right'; break;
+				case 4: p = 'left'; break;
+				case 5: p = 'center'; break;
+				case 6: p = 'right'; break;
+				case 7: p = 'bottom-left'; break;
+				case 8: p = 'bottom'; break;
+				case 9: p = 'bottom-right'; break;
+				default: p = null; break;
+			}
+		}
+		return p;
+	},
+	
 	/** 
 	 * Centers the image based on the parameter instead of resizing the image, 
 	 * the image is moved in order to stay centered
@@ -342,6 +373,9 @@
 			// start centered
 			left = $.sdiv(dw, 2),
 			top =  $.sdiv(dh, 2);
+			
+		// Assure we have a valid position
+		o.position = _convertPosition(o.position);
 		
 		// fix top
 		if (!!~o.position.indexOf('top')) {
@@ -541,7 +575,8 @@
 			aspectFill: _aspectFill
 		},
 		positioning: {
-			autoPosition: _autoPosition
+			autoPosition: _autoPosition,
+			convertPosition: _convertPosition
 		}
 	});
 	

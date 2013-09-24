@@ -21,11 +21,13 @@ module.exports = function(grunt) {
 		},
 		qunit: {
 			files: ['http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true',
+				'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.10.2',
+				'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.9.1',
+				'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.8',
 				'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.7',
 				'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.6',
 				'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.5',
-				'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.4',
-				'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.3']
+				'http://localhost:8080/tests/jquery.sizing.js.test.html?noglobals=true&jquery=1.4']
 		},
 		lint: {
 			files: ['grunt.js', 'src/jquery.*.js']

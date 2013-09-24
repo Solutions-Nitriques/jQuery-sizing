@@ -1,6 +1,6 @@
 ﻿# jQuery sizing [![Build Status](https://secure.travis-ci.org/Solutions-Nitriques/jQuery-sizing.png?branch=dev)](http://travis-ci.org/Solutions-Nitriques/jQuery-sizing)
 
-Version: 2.0.0 
+Version: 2.0.1
 
 ## What is it exactly ?
 This project is a collection of functions that performs specific sizing and positioning operations,
@@ -148,6 +148,7 @@ into the reference.
 	- `height`: the target height. Ignored if reference is set.
 	- `position`: the actual position. Values are 'center', 'top', 'right', 'bottom', 'left' and you
 	can	join them (execpt 'center') in any fashion such as 'top-right' or 'bottom|left'. Seperator character is optional.
+	You can also specify position usign numbers, 1 being top-left corner, 5 the center and 9 the bottom-right corner.
 	- `left`: the left porperty to change. Should be 'left' or 'margin-left' most of the time.
 	Defaults to 'margin-left'.
 	- `top`: the top porperty to change. Should be 'top' or 'margin-top' most of the time.

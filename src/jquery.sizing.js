@@ -325,10 +325,13 @@
 	
 	/**
 	 * Converts positioning given in number, where the area is divided into 9 pieces.
-	 * The 9 pieces are seperated as follow:
+	 * The 9 pieces are separated as follow:
 	 * |1|2|3|
 	 * |4|5|6|
 	 * |7|8|9|
+	 * 
+	 * @param position - the position value in the options
+	 * @return the string position if a numeric value was passed, the original value otherwise
 	 */
 	_convertPosition = function (position) {
 		var p = position;
